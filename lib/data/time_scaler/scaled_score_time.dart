@@ -13,7 +13,7 @@ class ScaledScoreTime {
   final _endTimeJson = json['endTime'];
   _startTime = new TimeOfDay(hour: _startTimeJson['hour'], minute: _startTimeJson['minute']);
   _endTime = new TimeOfDay(hour: _endTimeJson['hour'], minute: _endTimeJson['minute']);
-  _scaleFactor = json['scaleFactor'];
+  _scaleFactor = json['scaleFactor'].toDouble();
 }
 
   Map<String, dynamic> toJson() =>

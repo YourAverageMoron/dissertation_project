@@ -1,5 +1,6 @@
 import 'package:dissertation_project/data/phone_usage/app_usage_time.dart';
 import 'package:dissertation_project/data/time_scaler/scaled_score_time.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 // TODO Store this as a shared preference
 var timeOfDay = [
@@ -23,7 +24,7 @@ var timeOfDay = [
       'hour': 16,
       'minute':0,
     },
-    'scaleFactor': 5.0
+    'scaleFactor': 5
   },
 ];
 
@@ -36,11 +37,9 @@ class Score {
     return timeOfDay.map((json) => ScaledScoreTime.fromJson(json)).toList();
     }
 
-  //TODO handle different time periods in this
   static Future<int> _getTotalTimeScore(DateTime date) async {
 
     List<ScaledScoreTime> SST = _getScaledScoreTimes();
-
     SST.forEach((time) => print("${time.getStartTime()} ${time.getEndTime()} + ${time.getScaleFactor()}"));
 
     int year = date.year;
