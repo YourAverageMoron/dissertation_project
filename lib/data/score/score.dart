@@ -1,6 +1,5 @@
 import 'package:dissertation_project/data/phone_usage/app_usage_time.dart';
 import 'package:dissertation_project/data/time_scaler/scaled_score_time.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 // TODO Store this as a shared preference
 var timeOfDay = [
@@ -31,13 +30,15 @@ var timeOfDay = [
 // TODO Static?
 class Score {
 
-  static List<ScaledScoreTime> _getScaledScoreTimes() {
+  AppUsageTime appUsageTime = AppUsageTime();
+
+  List<ScaledScoreTime> _getScaledScoreTimes() {
     //TODO you will need to get the scaled score from shared preferences
 
     return timeOfDay.map((json) => ScaledScoreTime.fromJson(json)).toList();
     }
 
-  static Future<int> _getTotalTimeScore(DateTime date) async {
+  Future<int> _getTotalTimeScore(DateTime date) async {
 
     List<ScaledScoreTime> SST = _getScaledScoreTimes();
     SST.forEach((time) => print("${time.getStartTime()} ${time.getEndTime()} + ${time.getScaleFactor()}"));
@@ -51,7 +52,7 @@ class Score {
 
     double totalTime = 0;
 
-    Map<String, double> usageTimes = await AppUsageTime.getUsageStats(
+    Map<String, double> usageTimes = await appUsageTime.getUsageStats(
         startTime, endTime);
 
     usageTimes.forEach((name, time) =>
@@ -63,14 +64,14 @@ class Score {
   }
 
 
-  static int _calculateTotalTimeScore(double timeUsed) {
+  int _calculateTotalTimeScore(double timeUsed) {
     // TODO THIS IS JUST DOING THE PERCENTAGE TIME USED
     print(((1 - timeUsed / 86400) * 100).round());
     return ((1 - timeUsed / 86400) * 100).round();
   }
 
 
-  static Future<int> generateScore(DateTime date) {
+  Future<int> generateScore(DateTime date) {
     return _getTotalTimeScore(date);
   }
 }

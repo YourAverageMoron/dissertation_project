@@ -14,19 +14,18 @@ class AppUsagePage extends StatefulWidget {
 class AppUsagePageState extends State<AppUsagePage>{
   Future appUsageFuture;
 
+  AppUsageTime appUsageTime = AppUsageTime();
+
   @override
   void initState(){
     super.initState();
     appUsageFuture = _getAppUsage();
-
-    //TODO REMOVE THIS
-    var generateScore = Score.generateScore(DateTime.now());
   }
 
   _getAppUsage() async{
     DateTime endDate = new DateTime.now();
     DateTime startDate = DateTime(endDate.year, endDate.month, endDate.day, 0, 0, 0);
-    return await AppUsageTime.getUsageStats(startDate, endDate);
+    return await appUsageTime.getUsageStats(startDate, endDate);
   }
 
   @override

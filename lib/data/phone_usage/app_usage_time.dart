@@ -3,7 +3,7 @@ import 'package:app_usage/app_usage.dart';
 //TODO USE https://pub.dev/packages/flutter_package_manager TO GET NAMES OF APPS
 class AppUsageTime{
 
-  static Future<Map<String, double>> getUsageStats(DateTime startDate, DateTime endDate) async {
+  Future<Map<String, double>> getUsageStats(DateTime startDate, DateTime endDate) async {
     // Initialization
     AppUsage appUsage = new AppUsage();
     try {
