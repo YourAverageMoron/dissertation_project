@@ -15,7 +15,7 @@ jobs:
           channel: 'dev'
       - run: flutter pub get
       - run: flutter test --coverage
-      - name:
+      - name: Upload code coverage to https://codecov.io/gh/YourAverageMoron/dissertation_project
         uses: codecov/codecov-action@v1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
