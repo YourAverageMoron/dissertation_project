@@ -2,41 +2,15 @@ import 'package:dissertation_project/data/phone_usage/app_usage_time.dart';
 import 'package:dissertation_project/data/shared_preferences/scaled_score_times_preferences.dart';
 import 'package:dissertation_project/data/time_scaler/scaled_score_time.dart';
 
-// TODO Store this as a shared preference
-var timeOfDay = [
-  {
-    'startTime': {
-      'hour': 4,
-      'minute': 0,
-    },
-    'endTime': {
-      'hour': 5,
-      'minute': 0,
-    },
-    'scaleFactor': 0.5
-  },
-  {
-    'startTime': {
-      'hour': 14,
-      'minute': 0,
-    },
-    'endTime': {
-      'hour': 16,
-      'minute': 0,
-    },
-    'scaleFactor': 5
-  },
-];
-
 class Score {
-  AppUsageTime appUsageTime = AppUsageTime();
-  ScaledScoreTimesPreferences scaledScoreTimesPreferences =
+  //TODO create a constructor?
+  final AppUsageTime _appUsageTime = AppUsageTime();
+  final ScaledScoreTimesPreferences _scaledScoreTimesPreferences =
       ScaledScoreTimesPreferences();
 
   Future<int> _getTotalTimeScore(DateTime date) async {
-    scaledScoreTimesPreferences.storeScaleScoreTimes(timeOfDay);
     List<ScaledScoreTime> SST =
-        await scaledScoreTimesPreferences.getScaledScoreTimes();
+        await _scaledScoreTimesPreferences.getScaledScoreTimes();
     SST.forEach((time) => print(
         "${time.getStartTime()} ${time.getEndTime()} + ${time.getScaleFactor()}"));
 
@@ -50,7 +24,7 @@ class Score {
     double totalTime = 0;
 
     Map<String, double> usageTimes =
-        await appUsageTime.getUsageStats(startTime, endTime);
+        await _appUsageTime.getUsageStats(startTime, endTime);
 
     usageTimes.forEach((name, time) => {
           totalTime += time // TODO CHECK THAT THIS IS THE BEST WAY TO DO THIS
