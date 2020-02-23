@@ -11,7 +11,7 @@ jobs:
           java-version: '12.x' #TODO CHECK APP VERSION
       - uses: subosito/flutter-action@v1
         with:
-          flutter-version: '1.7.8+hotfix.4' #TODO check flutter verssion
+          flutter-version: '1.12.13+hotfix.4' #TODO check flutter verssion
       - run: flutter pub get
       - run: flutter test
       - run: flutter build apk --debug --split-per-abi
