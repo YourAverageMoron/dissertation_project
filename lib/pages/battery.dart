@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-
 class BatteryPage extends StatefulWidget {
   BatteryPage({Key key, this.title}) : super(key: key);
   final String title;
@@ -11,7 +10,9 @@ class BatteryPage extends StatefulWidget {
 }
 
 class _BatteryPageState extends State<BatteryPage> {
-  static const platform = const MethodChannel('uk.ac.bath.dissertation_project/battery');
+  static const platform =
+      const MethodChannel('uk.ac.bath.dissertation_project/battery');
+
   // Get battery level.
   String _batteryLevel = 'Unknown battery level.';
 
@@ -50,4 +51,3 @@ class _BatteryPageState extends State<BatteryPage> {
     );
   }
 }
-

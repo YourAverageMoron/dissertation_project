@@ -7,37 +7,38 @@ var timeOfDay = [
   {
     'startTime': {
       'hour': 4,
-      'minute':0,
+      'minute': 0,
     },
     'endTime': {
       'hour': 5,
-      'minute':0,
+      'minute': 0,
     },
     'scaleFactor': 0.5
   },
   {
     'startTime': {
       'hour': 14,
-      'minute':0,
+      'minute': 0,
     },
     'endTime': {
       'hour': 16,
-      'minute':0,
+      'minute': 0,
     },
     'scaleFactor': 5
   },
 ];
 
 class Score {
-
   AppUsageTime appUsageTime = AppUsageTime();
-  ScaledScoreTimesPreferences scaledScoreTimesPreferences = ScaledScoreTimesPreferences();
-
+  ScaledScoreTimesPreferences scaledScoreTimesPreferences =
+      ScaledScoreTimesPreferences();
 
   Future<int> _getTotalTimeScore(DateTime date) async {
     scaledScoreTimesPreferences.storeScaleScoreTimes(timeOfDay);
-    List<ScaledScoreTime> SST = await scaledScoreTimesPreferences.getScaledScoreTimes();
-    SST.forEach((time) => print("${time.getStartTime()} ${time.getEndTime()} + ${time.getScaleFactor()}"));
+    List<ScaledScoreTime> SST =
+        await scaledScoreTimesPreferences.getScaledScoreTimes();
+    SST.forEach((time) => print(
+        "${time.getStartTime()} ${time.getEndTime()} + ${time.getScaleFactor()}"));
 
     int year = date.year;
     int month = date.month;
@@ -48,24 +49,21 @@ class Score {
 
     double totalTime = 0;
 
-    Map<String, double> usageTimes = await appUsageTime.getUsageStats(
-        startTime, endTime);
+    Map<String, double> usageTimes =
+        await appUsageTime.getUsageStats(startTime, endTime);
 
-    usageTimes.forEach((name, time) =>
-    {
-      totalTime += time // TODO CHECK THAT THIS IS THE BEST WAY TO DO THIS
-    });
+    usageTimes.forEach((name, time) => {
+          totalTime += time // TODO CHECK THAT THIS IS THE BEST WAY TO DO THIS
+        });
 
     return _calculateTotalTimeScore(totalTime);
   }
-
 
   int _calculateTotalTimeScore(double timeUsed) {
     // TODO THIS IS JUST DOING THE PERCENTAGE TIME USED
     print(((1 - timeUsed / 86400) * 100).round());
     return ((1 - timeUsed / 86400) * 100).round();
   }
-
 
   Future<int> generateScore(DateTime date) {
     return _getTotalTimeScore(date);
