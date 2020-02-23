@@ -4,29 +4,32 @@ import 'package:flutter/material.dart';
 
 // TODO THIS IS A GOOD EXAMPLE OF HOW TO USE THE FUTURE BUILDER
 class AppUsagePage extends StatefulWidget {
-
   @override
   State<StatefulWidget> createState() {
     return AppUsagePageState();
   }
 }
 
-class AppUsagePageState extends State<AppUsagePage>{
+class AppUsagePageState extends State<AppUsagePage> {
   Future appUsageFuture;
 
+  AppUsageTime appUsageTime = AppUsageTime();
+
   @override
-  void initState(){
+  void initState() {
     super.initState();
     appUsageFuture = _getAppUsage();
-
-    //TODO REMOVE THIS
-    var generateScore = Score.generateScore(DateTime.now());
   }
 
-  _getAppUsage() async{
+  _getAppUsage() async {
+    //TODO REMOVE THIS LATER (JUST TESTING SCORE OBJECT)
+    Score score = Score();
+    await score.generateScore(DateTime.now());
+
     DateTime endDate = new DateTime.now();
-    DateTime startDate = DateTime(endDate.year, endDate.month, endDate.day, 0, 0, 0);
-    return await AppUsageTime.getUsageStats(startDate, endDate);
+    DateTime startDate =
+        DateTime(endDate.year, endDate.month, endDate.day, 0, 0, 0);
+    return await appUsageTime.getUsageStats(startDate, endDate);
   }
 
   @override
@@ -38,8 +41,8 @@ class AppUsagePageState extends State<AppUsagePage>{
       body: Center(
         child: FutureBuilder(
           future: appUsageFuture,
-          builder: (context, snapshot){
-            switch(snapshot.connectionState){
+          builder: (context, snapshot) {
+            switch (snapshot.connectionState) {
               case ConnectionState.none:
                 return Text("None");
               case ConnectionState.waiting:
