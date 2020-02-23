@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class ScaledScoreTime {
+class ScaledScoreTime extends Comparable {
   TimeOfDay _startTime;
   TimeOfDay _endTime;
   double _scaleFactor;
@@ -51,5 +51,15 @@ class ScaledScoreTime {
 
   void setScaleFactor(double scaleFactor) {
     _scaleFactor = scaleFactor;
+  }
+
+  @override
+  int compareTo(other) {
+    final now = new DateTime.now();
+    DateTime thisDate = new DateTime(
+        now.year, now.month, now.day, _startTime.hour, _startTime.minute);
+    DateTime otherDate = new DateTime(now.year, now.month, now.day,
+        other.getStartTime().hour, other.getStartTime().minute);
+    return thisDate.compareTo(otherDate);
   }
 }
