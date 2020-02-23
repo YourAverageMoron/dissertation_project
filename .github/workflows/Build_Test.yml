@@ -1,4 +1,5 @@
-onname: Test, Build and Release apk
+on: [push, pull_request]
+onname: Test and build
 jobs:
   build:
     name: Build APK
@@ -20,8 +21,3 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
           file: coverage/lcov.info
       - run: flutter build apk --debug --split-per-abi
-      - name: Create a Release APK
-        uses: ncipollo/release-action@v1
-        with:
-          artifacts: "build/app/outputs/apk/debug/*.apk"
-          token: ${{ secrets.TOKEN }}
