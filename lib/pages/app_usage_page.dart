@@ -23,6 +23,10 @@ class AppUsagePageState extends State<AppUsagePage>{
   }
 
   _getAppUsage() async{
+
+    Score score = Score();
+    int s = await score.generateScore(DateTime.now());
+
     DateTime endDate = new DateTime.now();
     DateTime startDate = DateTime(endDate.year, endDate.month, endDate.day, 0, 0, 0);
     return await appUsageTime.getUsageStats(startDate, endDate);
