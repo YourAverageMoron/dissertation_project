@@ -4,6 +4,32 @@ import 'package:dissertation_project/data/shared_preferences/preference_keys.dar
 import 'package:dissertation_project/data/time_scaler/scaled_score_time.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+//TODO **REMOVE THIS** just for testing stuff if it is needed (also shows format)
+var timeOfDay = [
+  {
+    'startTime': {
+      'hour': 4,
+      'minute': 0,
+    },
+    'endTime': {
+      'hour': 5,
+      'minute': 0,
+    },
+    'scaleFactor': 0.5
+  },
+  {
+    'startTime': {
+      'hour': 14,
+      'minute': 0,
+    },
+    'endTime': {
+      'hour': 16,
+      'minute': 0,
+    },
+    'scaleFactor': 5
+  },
+];
+
 class ScaledScoreTimesPreferences {
   //TODO tidy this ups
   void storeScaleScoreTimes(List<Object> scaledScoreTimes) async {
