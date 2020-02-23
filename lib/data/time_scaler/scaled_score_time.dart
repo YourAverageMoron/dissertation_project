@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
+import 'comparable_time_of_day.dart';
+
 class ScaledScoreTime extends Comparable {
-  TimeOfDay _startTime;
-  TimeOfDay _endTime;
+  ComparableTimeOfDay _startTime;
+  ComparableTimeOfDay _endTime;
   double _scaleFactor;
 
   ScaledScoreTime(this._startTime, this._endTime, this._scaleFactor);
@@ -10,9 +12,9 @@ class ScaledScoreTime extends Comparable {
   ScaledScoreTime.fromJson(Map<String, dynamic> json) {
     final _startTimeJson = json['startTime'];
     final _endTimeJson = json['endTime'];
-    _startTime = new TimeOfDay(
+    _startTime = new ComparableTimeOfDay(
         hour: _startTimeJson['hour'], minute: _startTimeJson['minute']);
-    _endTime = new TimeOfDay(
+    _endTime = new ComparableTimeOfDay(
         hour: _endTimeJson['hour'], minute: _endTimeJson['minute']);
     _scaleFactor = json['scaleFactor'].toDouble();
   }
@@ -29,11 +31,11 @@ class ScaledScoreTime extends Comparable {
         'scaleFactor': _scaleFactor
       };
 
-  TimeOfDay getStartTime() {
+  ComparableTimeOfDay getStartTime() {
     return _startTime;
   }
 
-  TimeOfDay getEndTime() {
+  ComparableTimeOfDay getEndTime() {
     return _endTime;
   }
 
@@ -41,11 +43,11 @@ class ScaledScoreTime extends Comparable {
     return _scaleFactor;
   }
 
-  void setStartTime(TimeOfDay startTime) {
+  void setStartTime(ComparableTimeOfDay startTime) {
     _startTime = startTime;
   }
 
-  void setEndTime(TimeOfDay endTime) {
+  void setEndTime(ComparableTimeOfDay endTime) {
     _endTime = endTime;
   }
 
@@ -55,11 +57,6 @@ class ScaledScoreTime extends Comparable {
 
   @override
   int compareTo(other) {
-    final now = new DateTime.now();
-    DateTime thisDate = new DateTime(
-        now.year, now.month, now.day, _startTime.hour, _startTime.minute);
-    DateTime otherDate = new DateTime(now.year, now.month, now.day,
-        other.getStartTime().hour, other.getStartTime().minute);
-    return thisDate.compareTo(otherDate);
+    return _startTime.compareTo(other.getStartTime());
   }
 }
