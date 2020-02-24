@@ -11,7 +11,7 @@ class BatteryPage extends StatefulWidget {
 
 class _BatteryPageState extends State<BatteryPage> {
   static const platform =
-      const MethodChannel('uk.ac.bath.dissertation_project/battery');
+      const MethodChannel('uk.ac.bath.dissertation_project/helper_methods');
 
   // Get battery level.
   String _batteryLevel = 'Unknown battery level.';
@@ -19,7 +19,7 @@ class _BatteryPageState extends State<BatteryPage> {
   Future<void> _getBatteryLevel() async {
     String batteryLevel;
     try {
-      final int result = await platform.invokeMethod('getBatteryLevel');
+      final int result = await platform.invokeMethod('getUsageStats');
       batteryLevel = 'Battery level at $result % .';
     } on PlatformException catch (e) {
       batteryLevel = "Failed to get battery level: '${e.message}'.";
