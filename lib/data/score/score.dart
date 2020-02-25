@@ -1,11 +1,11 @@
-import 'package:dissertation_project/data/phone_usage/app_usage_time.dart';
+import 'package:dissertation_project/data/phone_usage/get_app_usage_times.dart';
 import 'package:dissertation_project/data/shared_preferences/scaled_score_times_preferences.dart';
 import 'package:dissertation_project/data/time_scaler/scaled_score_time.dart';
 import 'package:flutter/material.dart';
 
 class Score {
   //TODO create a constructor?
-  final AppUsageTime _appUsageTime = AppUsageTime();
+  final GetAppUsageTimes _appUsageTime = GetAppUsageTimes();
   final ScaledScoreTimesPreferences _scaledScoreTimesPreferences =
       ScaledScoreTimesPreferences();
 
@@ -22,14 +22,15 @@ class Score {
 
     double totalTime = 0;
 
-    Map<String, double> usageTimes =
-        await _appUsageTime.getUsageStats(startTime, endTime);
-
-    usageTimes.forEach((name, time) => {
-          totalTime += time // TODO CHECK THAT THIS IS THE BEST WAY TO DO THIS
-        });
-
-    return _calculateTotalTimeScore(totalTime);
+    return 3;
+//    Map<String, double> usageTimes =
+//        await _appUsageTime.getUsageStats(startTime, endTime);
+//
+//    usageTimes.forEach((name, time) => {
+//          totalTime += time // TODO CHECK THAT THIS IS THE BEST WAY TO DO THIS
+//        });
+//
+//    return _calculateTotalTimeScore(totalTime);
   }
 
   int _calculateTotalTimeScore(double timeUsed) {

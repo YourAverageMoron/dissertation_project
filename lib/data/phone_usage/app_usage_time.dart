@@ -1,24 +1,19 @@
-import 'package:app_usage/app_usage.dart';
+//TODO COULD GET THE APP NAMES AND ICONS AND STUFF HERE?
+class AppUsageTime{
 
-//TODO USE https://pub.dev/packages/flutter_package_manager TO GET NAMES OF APPS
-class AppUsageTime {
-  Future<Map<String, double>> getUsageStats(
-      DateTime startDate, DateTime endDate) async {
-    // Initialization
-    AppUsage appUsage = new AppUsage();
-    try {
-      // Define a time interval
+  String _packageName;
+  double _timeInForground;
+  int _launchCount;
 
-      // Fetch the usage stats
-      Map<String, double> usage = await appUsage.fetchUsage(startDate, endDate);
+  AppUsageTime(this._packageName, this._timeInForground, this._launchCount);
 
-      // (Optional) Remove entries for apps with 0 usage time
-      usage.removeWhere((key, val) => val == 0);
-
-      return usage;
-    } on AppUsageException catch (exception) {
-      print(exception);
-      return null; //TODO CHECK THIS IF THERE IS A BETTER THING TO RETURN
-    }
+  AppUsageTime.fromJson(Map<String, dynamic> json) {
+    _packageName = json['packageName'];
+    _timeInForground = json['timeInForground'];
+    _launchCount = json['launchCount'];
   }
+
+  String getPackageName(){ return _packageName; }
+  double getTimeInForground(){ return _timeInForground; }
+  int getLaunchCount(){ return _launchCount; }
 }

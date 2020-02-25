@@ -7,12 +7,12 @@ import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.drawable.Drawable;
 import android.os.BatteryManager;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 
-import androidx.annotation.NonNull;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,7 +29,7 @@ public class MainActivity extends FlutterActivity {
     private static final String CHANNEL = "uk.ac.bath.dissertation_project/helper_methods";
 
     @Override
-    public void configureFlutterEngine(@NonNull FlutterEngine flutterEngine) {
+    public void configureFlutterEngine(FlutterEngine flutterEngine) {
         GeneratedPluginRegistrant.registerWith(flutterEngine);
         new MethodChannel(flutterEngine.getDartExecutor().getBinaryMessenger(), CHANNEL)
                 .setMethodCallHandler(
@@ -38,9 +38,8 @@ public class MainActivity extends FlutterActivity {
                                 handleGetBatteryLevel(result);
                             }
                             if (call.method.equals("getUsageStats")) {
-                                long currTime = System.currentTimeMillis();
-                                long startTime = currTime - 3000000;
-                                getUsageStats(startTime, currTime);
+                                List<String> stats =  getUsageStats(call.argument("startTime"), call.argument("endTime"));
+                                result.success(stats); // TODO how will this handle the AppUsageInfo object -> could stringify some json
                             } else {
                                 result.notImplemented();
                             }
@@ -74,9 +73,10 @@ public class MainActivity extends FlutterActivity {
     }
 
     //Usage methods
-    // You might have to change the version of the API somewhere
+    // TODO You might have to change the version of the API somewhere
+    // PLus this only has to be version 22 (just using foreach for testing);
     @TargetApi(VERSION_CODES.N)
-    private void getUsageStats(Long startTime, Long endTime) {
+    private List<String> getUsageStats(Long startTime, Long endTime) {
         UsageEvents.Event currentEvent;
         List<UsageEvents.Event> allEvents = new ArrayList<>();
         HashMap<String, AppUsageInfo> map = new HashMap<String, AppUsageInfo>();
@@ -102,18 +102,18 @@ public class MainActivity extends FlutterActivity {
             }
         }
 
-//iterating through the arraylist
+        //iterating through the arraylist
         for (int i = 0; i < allEvents.size() - 1; i++) {
             UsageEvents.Event E0 = allEvents.get(i);
             UsageEvents.Event E1 = allEvents.get(i + 1);
 
-//for launchCount of apps in time range
+            //for launchCount of apps in time range
             if (!E0.getPackageName().equals(E1.getPackageName()) && E1.getEventType() == 1) {
-// if true, E1 (launch event of an app) app launched
+                // if true, E1 (launch event of an app) app launched
                 map.get(E1.getPackageName()).launchCount++;
             }
 
-//for UsageTime of apps in time range
+            //for UsageTime of apps in time range
             if (E0.getEventType() == 1 && E1.getEventType() == 2
                     && E0.getClassName().equals(E1.getClassName())) {
                 long diff = E1.getTimeStamp() - E0.getTimeStamp();
@@ -121,18 +121,42 @@ public class MainActivity extends FlutterActivity {
                 map.get(E0.getPackageName()).timeInForeground += diff;
             }
         }
-        map.values().forEach((val) -> System.out.println(val.packageName + " " + val.timeInForeground));
+
+
+        List<String> jsonResults = new ArrayList<>();
+
+
+        //TODO change this for each and lambda to something that doesnt require APIv24
+        //TO be fair you could just do this before i.e push straight to json obj instead of a hashmap
+        map.values().forEach((val) -> {
+            JSONObject obj = new JSONObject();
+
+            try {
+                obj.put("packageName", val.packageName);
+                obj.put("timeInForground", val.timeInForeground);
+                obj.put("launchCount", val.launchCount);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            String stringJson = obj.toString();
+
+            jsonResults.add(stringJson);
+        });
+
+        System.out.println(jsonResults);
+        return jsonResults;
     }
 }
 
 
 class AppUsageInfo {
-    Drawable appIcon;
-    String appName, packageName;
+    String packageName;
     long timeInForeground;
     int launchCount;
 
     AppUsageInfo(String pName) {
         this.packageName=pName;
     }
+
 }
