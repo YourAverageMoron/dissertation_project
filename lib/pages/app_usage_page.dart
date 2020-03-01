@@ -1,6 +1,7 @@
 import 'package:dissertation_project/data/score/score.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:kiwi/kiwi.dart' as kiwi;
 
 class AppUsagePage extends StatefulWidget {
   AppUsagePage({Key key, this.title}) : super(key: key);
@@ -18,7 +19,8 @@ class _AppUsagePageState extends State<AppUsagePage> {
   String _batteryLevel = 'Unknown battery level.';
 
   Future<void> _getBatteryLevel() async {
-    Score score = new Score();
+    kiwi.Container container = kiwi.Container();
+    Score score = container<Score>();
     score.generateScore(DateTime.now());
 
     String batteryLevel;

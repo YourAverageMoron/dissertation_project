@@ -19,6 +19,7 @@ class Score {
   Future<int> generateScore(DateTime date) async {
     await _updateScoreParameters(date);
 
+    print("qweqweqweq");
     return _calculateScore();
   }
 

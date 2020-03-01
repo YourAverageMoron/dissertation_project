@@ -1,9 +1,13 @@
+import 'package:dissertation_project/kiwi_di/injector.dart';
 import 'package:dissertation_project/routing/router.dart';
 import 'package:flutter/material.dart';
 
 import 'routing/routes.dart';
 
-void main() => runApp(MyApp());
+void main(){
+  setup();
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   @override
