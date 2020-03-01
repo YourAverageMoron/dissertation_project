@@ -71,11 +71,6 @@ class ScaledScoreTimesPreferences {
     List<ScaledScoreTime> allTimes =
         _addScaledTimesToList(scaledScoreTimes, endTime);
 
-    allTimes.forEach((element) {
-      print(
-          '${element.getStartTime()}  ${element.getEndTime()}, ${element.getScaleFactor()}');
-    });
-
     return allTimes;
   }
 
