@@ -19,7 +19,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  app_usage: ^0.1.0
   shared_preferences: ^0.5.6+2
   kiwi: ^0.2.0
 
