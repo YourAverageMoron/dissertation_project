@@ -20,7 +20,7 @@ class _AppUsagePageState extends State<AppUsagePage> {
 
   Future<void> _getBatteryLevel() async {
     kiwi.Container container = kiwi.Container();
-    Score score = container<Score>();
+    ScoreRepository score = container<ScoreRepository>();
 
     String batteryLevel;
     try {

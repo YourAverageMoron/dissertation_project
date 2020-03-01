@@ -4,7 +4,7 @@ import 'package:dissertation_project/data/time_scaler/comparable_time_of_day.dar
 import 'package:dissertation_project/data/time_scaler/scaled_score_time.dart';
 import 'package:dissertation_project/helpers/datetime_helpers.dart';
 
-class Score {
+class ScoreRepository {
 
   final PhoneUsageStatistics _phoneUsageStatistics = PhoneUsageStatistics();
   final ScaledScoreTimesPreferences _scaledScoreTimesPreferences =
