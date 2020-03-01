@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dissertation_project/data/shared_preferences/preference_keys.dart';
+import 'package:dissertation_project/data/time_scaler/comparable_time_of_day.dart';
 import 'package:dissertation_project/data/time_scaler/scaled_score_time.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -61,6 +62,33 @@ class ScaledScoreTimesPreferences {
         .toList();
 
     return _orderByStartTime(objectTimes);
+  }
+
+  Future<List<ScaledScoreTime>> getAllTimesScored() async {
+    List<ScaledScoreTime> scaledScoreTime = await getScaledScoreTimes();
+
+    List<ScaledScoreTime> allTimes = [];
+    ComparableTimeOfDay startTime = ComparableTimeOfDay(hour: 0, minute: 0);
+
+    for (ScaledScoreTime scaledTime in scaledScoreTime) {
+      allTimes = _addScaledTimeToList(ScaledScoreTime.fromTimeOfDay(
+          startTime, scaledTime.getStartTime(), 1), allTimes);
+      allTimes = _addScaledTimeToList(scaledTime, allTimes);
+      startTime = scaledTime.getEndTime();
+    }
+
+    allTimes.add(ScaledScoreTime.fromTimeOfDay(
+        startTime, ComparableTimeOfDay(hour: 23, minute: 59), 1));
+
+    return allTimes;
+  }
+
+  List<ScaledScoreTime> _addScaledTimeToList(ScaledScoreTime scaledScoreTime,
+      List<ScaledScoreTime> listOfScaledTimes) {
+    if(scaledScoreTime.calculateTimeDifference() > 0) {
+      listOfScaledTimes.add(scaledScoreTime);
+    }
+    return listOfScaledTimes;
   }
 
   List<ScaledScoreTime> _orderByStartTime(

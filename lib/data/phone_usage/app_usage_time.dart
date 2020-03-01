@@ -1,15 +1,15 @@
 //TODO COULD GET THE APP NAMES AND ICONS AND STUFF HERE?
-class AppUsageTime{
+class AppUsageStat{
 
   String _packageName;
   double _timeInForground;
   int _launchCount;
 
-  AppUsageTime(this._packageName, this._timeInForground, this._launchCount);
+  AppUsageStat(this._packageName, this._timeInForground, this._launchCount);
 
-  AppUsageTime.fromJson(Map<String, dynamic> json) {
+  AppUsageStat.fromJson(Map<String, dynamic> json) {
     _packageName = json['packageName'];
-    _timeInForground = json['timeInForground'];
+    _timeInForground = json['timeInForground'].toDouble();
     _launchCount = json['launchCount'];
   }
 

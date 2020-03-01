@@ -1,3 +1,4 @@
+import 'package:dissertation_project/data/score/score.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -17,6 +18,9 @@ class _AppUsagePageState extends State<AppUsagePage> {
   String _batteryLevel = 'Unknown battery level.';
 
   Future<void> _getBatteryLevel() async {
+    Score score = new Score();
+    score.generateScore(DateTime.now());
+
     String batteryLevel;
     try {
       int endTime = DateTime.now().millisecondsSinceEpoch;

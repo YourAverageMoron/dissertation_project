@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:dissertation_project/helpers/datetime_helpers.dart';
 
 import 'comparable_time_of_day.dart';
 
@@ -6,8 +6,16 @@ class ScaledScoreTime extends Comparable {
   ComparableTimeOfDay _startTime;
   ComparableTimeOfDay _endTime;
   double _scaleFactor;
+  DateTimeHelpers _dateTimeHelpers = DateTimeHelpers();
 
   ScaledScoreTime(this._startTime, this._endTime, this._scaleFactor);
+
+  ScaledScoreTime.fromTimeOfDay(ComparableTimeOfDay startTime,
+      ComparableTimeOfDay endTime, double scaleFactor) {
+    _startTime = startTime;
+    _endTime = endTime;
+    _scaleFactor = scaleFactor;
+  }
 
   ScaledScoreTime.fromJson(Map<String, dynamic> json) {
     final _startTimeJson = json['startTime'];
@@ -58,5 +66,12 @@ class ScaledScoreTime extends Comparable {
   @override
   int compareTo(other) {
     return _startTime.compareTo(other.getStartTime());
+  }
+
+  int calculateTimeDifference() {
+    DateTime date = DateTime.now();
+    DateTime startDateTime = _dateTimeHelpers.timeOfDayToDate(date, _startTime);
+    DateTime endDateTime = _dateTimeHelpers.timeOfDayToDate(date, _endTime);
+    return endDateTime.difference(startDateTime).inMilliseconds;
   }
 }

@@ -143,8 +143,6 @@ public class MainActivity extends FlutterActivity {
 
             jsonResults.add(stringJson);
         });
-
-        System.out.println(jsonResults);
         return jsonResults;
     }
 }
