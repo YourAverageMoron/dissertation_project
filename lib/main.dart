@@ -6,8 +6,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'bloc/simple_block_delegate.dart';
 import 'routing/routes.dart';
 
-void main(){
-  setup();
+void main() {
+  Injector.setup();
   BlocSupervisor.delegate = SimpleBlocDelegate();
   runApp(MyApp());
 }

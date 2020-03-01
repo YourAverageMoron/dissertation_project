@@ -1,30 +1,28 @@
-import 'file:///D:/Programs/Android/Projects/dissertation_project/lib/bloc/score/score_event.dart';
-import 'file:///D:/Programs/Android/Projects/dissertation_project/lib/bloc/score/score_state.dart';
+import 'package:dissertation_project/bloc/score/score_event.dart';
 import 'package:dissertation_project/data/score/score.dart';
-import 'package:dissertation_project/kiwi_di/injector.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ScoreBloc extends Bloc<ScoreEvent, ScoreState>{
+import 'score_state.dart';
+
+class ScoreBloc extends Bloc<ScoreEvent, ScoreState> {
   final ScoreRepository scoreRepository;
 
-  ScoreBloc({@required this.scoreRepository}): assert(scoreRepository != null);
-
+  ScoreBloc({@required this.scoreRepository}) : assert(scoreRepository != null);
 
   @override
   ScoreState get initialState => ScoreEmpty();
 
   @override
   Stream<ScoreState> mapEventToState(ScoreEvent event) async* {
-    if(event is FetchScore){
+    if (event is FetchScore) {
       yield ScoreLoading();
     }
-    try{
+    try {
       final int score = await scoreRepository.generateScore(DateTime.now());
       yield ScoreLoaded(score: score);
-    }catch(_){
+    } catch (_) {
       yield ScoreError();
     }
   }
-  
 }
