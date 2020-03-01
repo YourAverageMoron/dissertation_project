@@ -21,7 +21,6 @@ class _AppUsagePageState extends State<AppUsagePage> {
   Future<void> _getBatteryLevel() async {
     kiwi.Container container = kiwi.Container();
     Score score = container<Score>();
-    score.generateScore(DateTime.now());
 
     String batteryLevel;
     try {
