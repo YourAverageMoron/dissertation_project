@@ -64,28 +64,62 @@ class ScaledScoreTimesPreferences {
     return _orderByStartTime(objectTimes);
   }
 
-  Future<List<ScaledScoreTime>> getAllTimesScored() async {
-    List<ScaledScoreTime> scaledScoreTime = await getScaledScoreTimes();
+  Future<List<ScaledScoreTime>> getAllTimesScored(
+      ComparableTimeOfDay endTime) async {
+    List<ScaledScoreTime> scaledScoreTimes = await getScaledScoreTimes();
 
-    List<ScaledScoreTime> allTimes = [];
-    ComparableTimeOfDay startTime = ComparableTimeOfDay(hour: 0, minute: 0);
+    List<ScaledScoreTime> allTimes =
+        _addScaledTimesToList(scaledScoreTimes, endTime);
 
-    for (ScaledScoreTime scaledTime in scaledScoreTime) {
-      allTimes = _addScaledTimeToList(ScaledScoreTime.fromTimeOfDay(
-          startTime, scaledTime.getStartTime(), 1), allTimes);
-      allTimes = _addScaledTimeToList(scaledTime, allTimes);
-      startTime = scaledTime.getEndTime();
-    }
-
-    allTimes.add(ScaledScoreTime.fromTimeOfDay(
-        startTime, ComparableTimeOfDay(hour: 23, minute: 59), 1));
+    allTimes.forEach((element) {
+      print(
+          '${element.getStartTime()}  ${element.getEndTime()}, ${element.getScaleFactor()}');
+    });
 
     return allTimes;
   }
 
-  List<ScaledScoreTime> _addScaledTimeToList(ScaledScoreTime scaledScoreTime,
+  //TODO CAN YOU TIDY THIS UP ITS A BIT GRIM
+  List<ScaledScoreTime> _addScaledTimesToList(
+      List<ScaledScoreTime> scaledScoreTimes, ComparableTimeOfDay endTime) {
+
+    List<ScaledScoreTime> allTimes = [];
+    ComparableTimeOfDay startTime = ComparableTimeOfDay(hour: 0, minute: 0);
+
+    for (ScaledScoreTime scaledTime in scaledScoreTimes) {
+      if(scaledTime.getStartTime().compareTo(endTime) < 0) {
+        allTimes = _addIndividualScaledTimeToList(
+            ScaledScoreTime.fromTimeOfDay(
+                startTime, scaledTime.getStartTime(), 1),
+            allTimes);
+
+        if(scaledTime.getEndTime().compareTo(endTime) < 0) {
+          allTimes = _addIndividualScaledTimeToList(scaledTime, allTimes);
+          startTime = scaledTime.getEndTime();
+        }
+        else{
+          allTimes = _addIndividualScaledTimeToList(
+              ScaledScoreTime.fromTimeOfDay(
+                  scaledTime.getStartTime(), endTime, scaledTime.getScaleFactor()),
+              allTimes);
+          break;
+        }
+      }
+      else{
+        allTimes = _addIndividualScaledTimeToList(
+            ScaledScoreTime.fromTimeOfDay(
+                startTime, endTime, 1),
+            allTimes);
+        break;
+      }
+    }
+    return allTimes;
+  }
+
+  List<ScaledScoreTime> _addIndividualScaledTimeToList(
+      ScaledScoreTime scaledScoreTime,
       List<ScaledScoreTime> listOfScaledTimes) {
-    if(scaledScoreTime.calculateTimeDifference() > 0) {
+    if (scaledScoreTime.calculateTimeDifference() > 0) {
       listOfScaledTimes.add(scaledScoreTime);
     }
     return listOfScaledTimes;
