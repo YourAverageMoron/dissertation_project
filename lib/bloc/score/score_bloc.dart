@@ -1,14 +1,12 @@
 import 'package:dissertation_project/bloc/score/score_event.dart';
 import 'package:dissertation_project/data/score/score.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:dissertation_project/kiwi_di/injector.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'score_state.dart';
 
 class ScoreBloc extends Bloc<ScoreEvent, ScoreState> {
-  final ScoreRepository scoreRepository;
-
-  ScoreBloc({@required this.scoreRepository}) : assert(scoreRepository != null);
+  final ScoreRepository scoreRepository = Injector.resolve<ScoreRepository>();
 
   @override
   ScoreState get initialState => ScoreEmpty();
