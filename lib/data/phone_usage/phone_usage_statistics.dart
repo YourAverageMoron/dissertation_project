@@ -1,10 +1,13 @@
 import 'dart:async';
 
-import 'app_usage_time.dart';
+import 'package:dissertation_project/kiwi_di/injector.dart';
+
+import 'app_usage_statistic.dart';
 import 'get_app_usage_times.dart';
 
 class PhoneUsageStatistics {
-  final GetAppUsageTimes _appUsageTime = GetAppUsageTimes();
+
+  final GetAppUsageTimes _appUsageTime = Injector.resolve<GetAppUsageTimes>();
 
   Future<double> getTotalAppUsageTime(DateTime startDate, DateTime endDate,
       {double scaleFactor = 1}) async {

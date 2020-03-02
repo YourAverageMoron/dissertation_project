@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:dissertation_project/data/phone_usage/app_usage_time.dart';
+import 'package:dissertation_project/data/phone_usage/app_usage_statistic.dart';
 import 'package:flutter/services.dart';
 
 //TODO USE https://pub.dev/packages/flutter_package_manager TO GET NAMES OF APPS

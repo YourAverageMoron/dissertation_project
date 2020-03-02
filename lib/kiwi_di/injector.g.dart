@@ -10,5 +10,6 @@ class _$Injector extends Injector {
   void configure() {
     final Container container = Container();
     container.registerSingleton((c) => ScoreRepository());
+    container.registerSingleton((c) => GetAppUsageTimes());
   }
 }

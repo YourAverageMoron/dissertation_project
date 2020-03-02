@@ -1,3 +1,4 @@
+import 'package:dissertation_project/data/phone_usage/get_app_usage_times.dart';
 import 'package:dissertation_project/data/score/score.dart';
 import 'package:kiwi/kiwi.dart';
 
@@ -14,5 +15,6 @@ abstract class Injector {
   static final resolve = container.resolve;
 
   @Register.singleton(ScoreRepository)
+  @Register.singleton(GetAppUsageTimes)
   void configure();
 }
