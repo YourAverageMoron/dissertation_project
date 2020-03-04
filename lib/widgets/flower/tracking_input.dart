@@ -14,8 +14,7 @@ class TrackingState extends State<TrackingInput>{
 
   AnimationControls _animationControls;
   final FlareControls flowerMoveControls = FlareControls();
-  int currentScore = 0;
-  int maxScore = 0;
+  double currentScore = 0;
   
   @override
   void initState(){
@@ -23,8 +22,8 @@ class TrackingState extends State<TrackingInput>{
     super.initState();
   }
 
-  void incrementScore(){
-    currentScore ++;
+  void setScore(double score){
+    currentScore  = score; // TODO do we need to save this -> just in case we do some manipulation later
 
     _animationControls.updateScore(currentScore.toDouble());
   }
