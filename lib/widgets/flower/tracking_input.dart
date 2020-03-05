@@ -12,6 +12,7 @@ class TrackingInput extends StatefulWidget{
 
 class TrackingState extends State<TrackingInput>{
 
+
   AnimationControls _animationControls;
   final FlareControls flowerMoveControls = FlareControls();
   double currentScore = 0;
@@ -24,8 +25,8 @@ class TrackingState extends State<TrackingInput>{
 
   void setScore(double score){
     currentScore  = score; // TODO do we need to save this -> just in case we do some manipulation later
-
-    _animationControls.updateScore(currentScore.toDouble());
+    print(currentScore);
+    _animationControls.updateScore(currentScore);
   }
 
 
@@ -42,7 +43,24 @@ class TrackingState extends State<TrackingInput>{
               animation: 'Ruffle flowers',
               artboard: 'Artboard',
             ),
-
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Slider(
+                  min:0,
+                  max: 1,
+                  divisions: 100,
+                  value: currentScore,
+                  onChanged: (double newValue) {
+                    setState(() {
+                      currentScore = newValue;
+                    });
+                    setScore(currentScore);
+                  },
+                  
+                )
+              ],
+            ),
           ],
         )
       ),
