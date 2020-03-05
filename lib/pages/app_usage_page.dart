@@ -1,4 +1,4 @@
-import 'package:dissertation_project/data/score/score.dart';
+import 'package:dissertation_project/data/score/score_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kiwi/kiwi.dart' as kiwi;

@@ -1,5 +1,5 @@
 import 'package:dissertation_project/data/phone_usage/get_app_usage_times.dart';
-import 'package:dissertation_project/data/score/score.dart';
+import 'package:dissertation_project/data/score/score_repository.dart';
 import 'package:kiwi/kiwi.dart';
 
 part 'injector.g.dart';
