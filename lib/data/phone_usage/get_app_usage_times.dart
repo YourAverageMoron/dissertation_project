@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:dissertation_project/data/phone_usage/app_usage_statistic.dart';
 import 'package:flutter/services.dart';
 
-//TODO USE https://pub.dev/packages/flutter_package_manager TO GET NAMES OF APPS
 
 //TODO I THINK THE GET USAGE STATS METHOD MAY NEED A LISTNEER THAT SITS THERE CONSTANTLY
 //todo then have a method that gets the usage stats from that listener

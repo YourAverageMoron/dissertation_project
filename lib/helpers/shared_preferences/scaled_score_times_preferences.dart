@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import 'package:dissertation_project/data/shared_preferences/preference_keys.dart';
 import 'package:dissertation_project/data/time_scaler/comparable_time_of_day.dart';
 import 'package:dissertation_project/data/time_scaler/scaled_score_time.dart';
+import 'package:dissertation_project/helpers/shared_preferences/preference_keys.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 //TODO **REMOVE THIS** just for testing stuff if it is needed (also shows format)
