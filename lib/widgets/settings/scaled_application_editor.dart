@@ -1,7 +1,13 @@
+import 'package:dissertation_project/data/app_scaler/scaled_app.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-List<String> items = List<String>.generate(5, (i) => "Item $i");
+List<ScaledApp> scaledApps = [
+  ScaledApp("Package", "Instagram", 5),
+  ScaledApp("Package", "Medium", 0.4),
+  ScaledApp("Package", "Facebook", 2),
+  ScaledApp("Package", "Twitter", 3),
+];
 
 //TODO COULD MAKE THIS GENERIC?
   //PASS IN TEXT AND INSIDE WIDGET?
@@ -29,18 +35,21 @@ class ScaledApplicationEditorCard extends StatelessWidget {
 class DropdownContent extends StatelessWidget {
 
   //TODO THIS SHOULD USE PACKAGE INFO REPO TO GET ALL INSTALLED APPS AS A LIST
+    // Will need to access the shared preferences to find the package names and scores
     // MAP THAT LIST USING PACKAGE INFO TO GET IMAGE AND APP NAME
     // PASS THAT MAPPED LIST INTO EditScaledApplicationCard if scale factor != 1
   @override
   Widget build(BuildContext context) {
-
-    //TODO LISTVIEW BUILDER? -> LOOK AT THE LEADERBOARD
-    return ListView(
-      scrollDirection: Axis.vertical,
-      shrinkWrap: true,
+    return Column(
       children: <Widget>[
-        EditScaledApplicationCard("package","Instagram",0.5),
-        EditScaledApplicationCard("package","Twitter",0.5),
+        ListView.builder(
+          itemCount: scaledApps.length,
+          scrollDirection: Axis.vertical,
+          shrinkWrap: true,
+          itemBuilder: (context, index) {
+            return EditScaledApplicationCard(scaledApps[index]);
+          }
+        ),
         RaisedButton(
           child: Text("Add a new scaled application"),
           color: Colors.green,
@@ -59,11 +68,10 @@ class EditScaledApplicationCard extends StatelessWidget {
   String _applicationName;
   double _scaleFactor;
 
-  EditScaledApplicationCard(String packageName, String applicationName,
-      double scaleFactor){
-    _packageName = packageName;
-    _applicationName = applicationName;
-    _scaleFactor = scaleFactor;
+  EditScaledApplicationCard(ScaledApp scaledApp){
+    _packageName = scaledApp.getPackageName();
+    _applicationName = scaledApp.getAppName();
+    _scaleFactor = scaledApp.getScaleFactor();
   }
 
   @override
@@ -78,7 +86,6 @@ class EditScaledApplicationCard extends StatelessWidget {
         color: Colors.red,
         onPressed: () { print("Remove"); },
       ),
-      //TODO IT WILL NEED A BUTTON TO REMOVE
     ));
   }
 }
