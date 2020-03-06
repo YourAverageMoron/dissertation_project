@@ -1,4 +1,4 @@
-import 'package:dissertation_project/widgets/scaled_application_editor.dart';
+import 'package:dissertation_project/widgets/settings/scaled_application_editor.dart';
 import 'package:flutter/material.dart';
 
 class SettingsPage extends StatelessWidget {
@@ -13,18 +13,7 @@ class SettingsPage extends StatelessWidget {
         title: Text("Settings"),
       ),
       body: ListView(children: <Widget>[
-        Card(
-          child: Padding(
-            padding: EdgeInsets.only(
-                top: 36.0, left: 6.0, right: 6.0, bottom: 6.0),
-            child: ExpansionTile(
-              title: Text('Applications that scale your score'),
-              children: <Widget>[
-                ScaledApplicationEditor(),
-              ],
-            ),
-          ),
-        ),
+        ScaledApplicationEditorCard(),
       ]),
     );
   }
