@@ -6,13 +6,13 @@ import 'package:flutter_package_manager/flutter_package_manager.dart';
 
 class ScaledAppRepository {
   ScaledAppPreferences _scaledAppPreferences =
-      Injector.resolve<ScaledAppPreferences>();
+  Injector.resolve<ScaledAppPreferences>();
   PackageManagerRepository _packageManagerRepository =
-      Injector.resolve<PackageManagerRepository>();
+  Injector.resolve<PackageManagerRepository>();
 
   Future<Map<String, ScaledApp>> getAllScaledApps() async {
     List<String> packages =
-        await _packageManagerRepository.getInstalledPackages();
+    await _packageManagerRepository.getInstalledPackages();
 
     Map<String, ScaledApp> scaledApps = {};
     for (String package in packages) {
@@ -20,7 +20,7 @@ class ScaledAppRepository {
     }
 
     List<Map<String, dynamic>> jsonApps =
-        await _scaledAppPreferences.getScaledApps();
+    await _scaledAppPreferences.getScaledApps();
 
     for (Map<String, dynamic> jsonApp in jsonApps) {
       scaledApps[jsonApp['packageName']]
@@ -32,7 +32,7 @@ class ScaledAppRepository {
 
   Future<Map<String, ScaledApp>> getUserScaledApps() async {
     List<Map<String, dynamic>> jsonApps =
-        await _scaledAppPreferences.getScaledApps();
+    await _scaledAppPreferences.getScaledApps();
 
     Map<String, ScaledApp> scaledApps = {};
     for (Map<String, dynamic> jsonApp in jsonApps) {
@@ -42,10 +42,22 @@ class ScaledAppRepository {
     return scaledApps;
   }
 
-  Future<ScaledApp> _createScaledApp(
-      String packageName, double scaleFactor) async {
+  Future<void> saveScaledApps(Map<String, ScaledApp> scaledApps) async {
+    List<Map<String, dynamic>> jsonScaledApps = [];
+    scaledApps.forEach((key, value) =>
+        jsonScaledApps.add(
+            {
+              'packageName': value.getPackageName(),
+              'scaleFactor': value.getScaleFactor()
+            }));
+
+    _scaledAppPreferences.storeScaledApps(jsonScaledApps);
+  }
+
+  Future<ScaledApp> _createScaledApp(String packageName,
+      double scaleFactor) async {
     PackageInfo packageInfo =
-        await _packageManagerRepository.getPackageInfo(packageName);
+    await _packageManagerRepository.getPackageInfo(packageName);
     return ScaledApp(
         packageName: packageName,
         appName: packageInfo.appName,

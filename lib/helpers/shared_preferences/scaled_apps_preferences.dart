@@ -31,11 +31,15 @@ class ScaledAppPreferences {
   }
 
   Future<List<Map<String, dynamic>>> getScaledApps() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    List<String> stringApps =
-        prefs.getStringList(SCALED_APPS_PREFS); //sort out the key
-    List<Map<String, dynamic>> list =
-        stringApps.map((app) => jsonDecode(app)).toList();
-    return list;
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      List<String> stringApps =
+      prefs.getStringList(SCALED_APPS_PREFS); //sort out the key
+      List<Map<String, dynamic>> list =
+      stringApps.map((app) => jsonDecode(app)).toList();
+      return list;
+    }catch (_){
+      return [];
+    }
   }
 }

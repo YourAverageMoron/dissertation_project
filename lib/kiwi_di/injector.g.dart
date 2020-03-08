@@ -9,6 +9,7 @@ part of 'injector.dart';
 class _$Injector extends Injector {
   void configure() {
     final Container container = Container();
+    container.registerSingleton((c) => ScaledAppRepository());
     container.registerSingleton((c) => ScaledAppPreferences());
     container.registerSingleton((c) => PackageManagerRepository());
     container.registerSingleton((c) => ScoreRepository());

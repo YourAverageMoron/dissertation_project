@@ -1,4 +1,5 @@
 import 'package:dissertation_project/bloc/score/score_bloc.dart';
+import 'package:dissertation_project/bloc/settings/scaled_application/scaled_application_bloc.dart';
 import 'package:dissertation_project/pages/app_usage_page.dart';
 import 'package:dissertation_project/pages/home_page.dart';
 import 'package:dissertation_project/pages/leaderboard_page.dart';
@@ -22,7 +23,10 @@ class Router {
       case APPUSAGE:
         return MaterialPageRoute(builder: (_) => AppUsagePage());
       case SETTINGS:
-        return MaterialPageRoute(builder: (_) => SettingsPage());
+        return MaterialPageRoute(builder: (_) => BlocProvider(
+            create: (context) =>
+                ScaledApplicationBloc(),
+            child: SettingsPage()));
       default:
         return MaterialPageRoute(
             builder: (_) => Scaffold(

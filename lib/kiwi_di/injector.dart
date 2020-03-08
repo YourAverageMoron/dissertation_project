@@ -1,3 +1,4 @@
+import 'package:dissertation_project/data/app_scaler/scaled_app_repository.dart';
 import 'package:dissertation_project/data/phone_usage/get_app_usage_times.dart';
 import 'package:dissertation_project/data/score/score_repository.dart';
 import 'package:dissertation_project/helpers/shared_preferences/scaled_apps_preferences.dart';
@@ -16,6 +17,7 @@ abstract class Injector {
 
   static final resolve = container.resolve;
 
+  @Register.singleton(ScaledAppRepository)
   @Register.singleton(ScaledAppPreferences)
   @Register.singleton(PackageManagerRepository)
   @Register.singleton(ScoreRepository)
