@@ -42,7 +42,7 @@ class ScaledApplicationBloc
       AddScaledApp event) async* {
     if (state is ScaledApplicationsLoaded) {
       final Map<String, ScaledApp> scaledApps =
-          (state as ScaledApplicationsLoaded).scaledApps;
+          Map.from((state as ScaledApplicationsLoaded).scaledApps);
       scaledApps[event.scaledApp.getPackageName()] = event.scaledApp;
       yield ScaledApplicationsLoaded(scaledApps);
       _saveScaledApps(scaledApps);
@@ -53,7 +53,7 @@ class ScaledApplicationBloc
       UpdateScaledApp event) async* {
     if (state is ScaledApplicationsLoaded) {
       final Map<String, ScaledApp> scaledApps =
-          (state as ScaledApplicationsLoaded).scaledApps;
+          Map.from((state as ScaledApplicationsLoaded).scaledApps);
       scaledApps[event.scaledApp.getPackageName()] = event.scaledApp;
       yield ScaledApplicationsLoaded(scaledApps);
       _saveScaledApps(scaledApps);
@@ -64,7 +64,7 @@ class ScaledApplicationBloc
       DeleteScaledApp event) async* {
     if (state is ScaledApplicationsLoaded) {
       final Map<String, ScaledApp> scaledApps =
-          (state as ScaledApplicationsLoaded).scaledApps;
+          Map.from((state as ScaledApplicationsLoaded).scaledApps);
       scaledApps.remove(event.scaledApp.getPackageName());
       yield ScaledApplicationsLoaded(scaledApps);
       _saveScaledApps(scaledApps);
