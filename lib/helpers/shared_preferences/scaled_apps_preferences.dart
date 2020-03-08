@@ -33,12 +33,13 @@ class ScaledAppPreferences {
   Future<List<Map<String, dynamic>>> getScaledApps() async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      List<String> stringApps =
-      prefs.getStringList(SCALED_APPS_PREFS); //sort out the key
-      List<Map<String, dynamic>> list =
-      stringApps.map((app) => jsonDecode(app)).toList();
+      List<String> stringApps = prefs.getStringList(SCALED_APPS_PREFS);
+      List<Map<String, dynamic>> list = [];
+      stringApps.forEach((app) => list.add(jsonDecode(app)));
       return list;
-    }catch (_){
+    } catch (e) {
+      //TODO is there a better way to handle this?
+      print(e);
       return [];
     }
   }
