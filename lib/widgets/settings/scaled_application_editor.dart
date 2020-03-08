@@ -3,10 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 List<ScaledApp> scaledApps = [
-  ScaledApp("Package", "Instagram", 5),
-  ScaledApp("Package", "Medium", 0.4),
-  ScaledApp("Package", "Facebook", 2),
-  ScaledApp("Package", "Twitter", 3),
 ];
 
 //TODO COULD MAKE THIS GENERIC?
