@@ -14,7 +14,17 @@ class ScaledApplicationsLoaded extends ScaledApplicationState {
   final Map<String, ScaledApp> scaledApps;
   const ScaledApplicationsLoaded([this.scaledApps = const {}]);
 
+  @override
   List<Object> get props => [scaledApps];
 }
 
 class ScaledApplicationsNotLoaded extends ScaledApplicationState {}
+
+class ScaledApplicationFormState extends ScaledApplicationState {
+  final ScaledApp scaledApp;
+
+  const ScaledApplicationFormState([this.scaledApp]);
+
+  @override
+  List<Object> get props => [scaledApp];
+}

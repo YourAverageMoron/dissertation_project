@@ -3,6 +3,7 @@ import 'package:dissertation_project/bloc/settings/scaled_application/scaled_app
 import 'package:dissertation_project/data/app_scaler/scaled_app.dart';
 import 'package:dissertation_project/data/app_scaler/scaled_app_repository.dart';
 import 'package:dissertation_project/kiwi_di/injector.dart';
+import 'package:dissertation_project/widgets/settings/scaled_application_editor.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ScaledApplicationBloc
@@ -24,6 +25,8 @@ class ScaledApplicationBloc
       yield* _mapUpdateScaledAppToState(event);
     } else if (event is DeleteScaledApp) {
       yield* _mapDeleteScaledAppToState(event);
+    } else if (event is ScaledAppFormEvent) {
+      yield* _mapScaledAppFormToState(event);
     }
   }
 
@@ -40,9 +43,9 @@ class ScaledApplicationBloc
 
   Stream<ScaledApplicationState> _mapAddScaledAppToState(
       AddScaledApp event) async* {
-    if (state is ScaledApplicationsLoaded) {
+    if (state is ScaledApplicationFormState) {
       final Map<String, ScaledApp> scaledApps =
-          Map.from((state as ScaledApplicationsLoaded).scaledApps);
+        await _scaledAppRepository.getUserScaledApps();
       scaledApps[event.scaledApp.getPackageName()] = event.scaledApp;
       yield ScaledApplicationsLoaded(scaledApps);
       _saveScaledApps(scaledApps);
@@ -69,6 +72,11 @@ class ScaledApplicationBloc
       yield ScaledApplicationsLoaded(scaledApps);
       _saveScaledApps(scaledApps);
     }
+  }
+
+  Stream<ScaledApplicationState> _mapScaledAppFormToState(
+      ScaledAppFormEvent event) async* {
+    yield ScaledApplicationFormState(event.scaledApp);
   }
 
   void _saveScaledApps(Map<String, ScaledApp> scaledApps) {

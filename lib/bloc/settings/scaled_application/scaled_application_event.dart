@@ -37,3 +37,12 @@ class DeleteScaledApp extends ScaledApplicationEvent {
   @override
   List<Object> get props => [scaledApp];
 }
+
+class ScaledAppFormEvent extends ScaledApplicationEvent {
+  final ScaledApp scaledApp;
+
+  const ScaledAppFormEvent(this.scaledApp);
+
+  @override
+  List<Object> get props => [scaledApp];
+}
