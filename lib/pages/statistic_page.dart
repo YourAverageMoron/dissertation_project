@@ -6,6 +6,7 @@ class StatisticsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).backgroundColor,
         appBar: AppBar(
           title: Text("Statistics"),
         ),
@@ -81,7 +82,7 @@ class StatisticsContainer extends StatelessWidget {
       padding: padding,
       child: Container(
         decoration: new BoxDecoration(
-            color: Theme.of(context).backgroundColor,
+            color: Colors.white,
             borderRadius: new BorderRadius.only(
               topLeft: const Radius.circular(10.0),
               topRight: const Radius.circular(10.0),
