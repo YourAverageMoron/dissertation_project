@@ -34,6 +34,14 @@ class AppDrawer extends StatelessWidget{
               },
             ),
             ListTile(
+              leading: Icon(Icons.insert_chart),
+              title: Text('Statistics'),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.pushNamed(context, STATISTICS);
+              },
+            ),
+            ListTile(
               leading: Icon(Icons.settings),
               title: Text('Settings'),
               onTap: () {

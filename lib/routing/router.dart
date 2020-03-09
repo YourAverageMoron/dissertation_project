@@ -4,6 +4,7 @@ import 'package:dissertation_project/pages/app_usage_page.dart';
 import 'package:dissertation_project/pages/home_page.dart';
 import 'package:dissertation_project/pages/leaderboard_page.dart';
 import 'package:dissertation_project/pages/settings_page.dart';
+import 'package:dissertation_project/pages/statistic_page.dart';
 import 'package:dissertation_project/routing/routes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +23,8 @@ class Router {
         return MaterialPageRoute(builder: (_) => LeaderboardPage());
       case APPUSAGE:
         return MaterialPageRoute(builder: (_) => AppUsagePage());
+      case STATISTICS:
+        return MaterialPageRoute(builder: (_) => StatisticsPage());
       case SETTINGS:
         return MaterialPageRoute(builder: (_) => BlocProvider(
             create: (context) =>
