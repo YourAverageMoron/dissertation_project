@@ -26,7 +26,7 @@ class ScaledApplicationEditorCard extends StatelessWidget {
 }
 
 ScaledApp testScaledApp = ScaledApp(
-    appName: "app", scaleFactor: 0.4, packageName: "package", icon: null);
+    appName: "app", scaleFactor: 0.4, packageName: "com.android.chrome", icon: null);
 
 class DropdownContent extends StatelessWidget {
   @override
@@ -79,7 +79,7 @@ class EditScaledApplicationCard extends StatelessWidget {
           child: ListTile(
         onTap: () => BlocProvider.of<ScaledApplicationBloc>(context)
             .add(ScaledAppFormEvent(scaledApp)),
-        leading: Icon(Icons.apps),
+        leading: scaledApp.getIcon(),
         title: Text(scaledApp.getAppName()),
         subtitle: Text(scaledApp.getScaleFactor().toString()),
         trailing: IconButton(

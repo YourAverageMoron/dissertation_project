@@ -18,7 +18,7 @@ class StatisticsPage extends StatelessWidget {
                   child: StatisticsContainer(
                     child: WrittenStatistic(
                       header: "Total screen time today",
-                      statistic: "stat", //TODO INSERT STAT HERE
+                      statistic: "5h 15m", //TODO INSERT STAT HERE
                     ),
                   ),
                 ),
@@ -26,30 +26,27 @@ class StatisticsPage extends StatelessWidget {
                   child: StatisticsContainer(
                     child: WrittenStatistic(
                       header: "Total app opens today",
-                      statistic: "stat", //TODO INSERT STAT HERE
+                      statistic: "50", //TODO INSERT STAT HERE
                     ),
                   ),
                 ),
               ],
             ),
-            StatisticsContainer(child: SimpleBarChart.withSampleData()),
-            Container(
-                height: 150,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    Expanded(
-                      child: StatisticsContainer(
-                        child: PieOutsideLabelChart.withSampleData(),
-                      ),
-                    ),
-                    Expanded(
-                      child: StatisticsContainer(
-                        child: PieOutsideLabelChart.withSampleData(),
-                      ),
-                    ),
-                  ],
-                )),
+            StatisticsContainer(
+              height: 300,
+                child: Column(
+              children: <Widget>[
+                FittedBox(
+                    child: Text(
+                      "Weekly score comparison",
+                      style: Theme.of(context).textTheme.subtitle1,
+                      overflow: TextOverflow.ellipsis,
+                    )),
+                Expanded(child:SimpleBarChart.withSampleData()),
+              ],
+            )),
+            StatisticsContainer(child: PieOutsideLabelChart.withSampleData()),
+            StatisticsContainer(child: PieOutsideLabelChart.withSampleData()),
           ],
         ));
   }
@@ -57,17 +54,29 @@ class StatisticsPage extends StatelessWidget {
 
 class StatisticsContainer extends StatelessWidget {
   final Widget child;
+  final EdgeInsets padding;
+  final double height;
 
-  StatisticsContainer({@required this.child});
+  StatisticsContainer(
+      {@required this.child,
+      this.padding = const EdgeInsets.all(10),
+      this.height = 150.0});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(10),
+      padding: padding,
       child: Container(
-        color: Colors.blueGrey[50],
-        height: 200,
-        child: child,
+        decoration: new BoxDecoration(
+            color: Theme.of(context).backgroundColor,
+            borderRadius: new BorderRadius.only(
+              topLeft: const Radius.circular(10.0),
+              topRight: const Radius.circular(10.0),
+              bottomLeft: const Radius.circular(10.0),
+              bottomRight: const Radius.circular(10.0),
+            )),
+        height: height,
+        child: Padding(padding: EdgeInsets.all(10), child: child),
       ),
     );
   }
@@ -87,15 +96,19 @@ class WrittenStatistic extends StatelessWidget {
       children: <Widget>[
         Padding(
             padding: EdgeInsets.only(bottom: 10),
-            child: Text(
-          header,
-          style: Theme.of(context).textTheme.subtitle1,
-          overflow: TextOverflow.ellipsis,
-        )),
-        Text(
-          statistic,
-          style: Theme.of(context).textTheme.headline2,
-          overflow: TextOverflow.ellipsis,
+            child: FittedBox(
+                child: Text(
+              header,
+              style: Theme.of(context).textTheme.subtitle1,
+              overflow: TextOverflow.ellipsis,
+            ))),
+        FittedBox(
+          fit: BoxFit.fitWidth,
+          child: Text(
+            statistic,
+            style: Theme.of(context).textTheme.headline2,
+            overflow: TextOverflow.ellipsis,
+          ),
         ),
       ],
     );
@@ -127,10 +140,13 @@ class SimpleBarChart extends StatelessWidget {
   /// Create one series with sample hard coded data.
   static List<charts.Series<OrdinalSales, String>> _createSampleData() {
     final data = [
-      new OrdinalSales('2014', 5),
-      new OrdinalSales('2015', 25),
-      new OrdinalSales('2016', 10),
-      new OrdinalSales('2017', 75),
+      new OrdinalSales('Tues', 50),
+      new OrdinalSales('Wed', 25),
+      new OrdinalSales('Thurs', 10),
+      new OrdinalSales('Fri', 80),
+      new OrdinalSales('Sat', 75),
+      new OrdinalSales('Sun', 45),
+      new OrdinalSales('Mon', 77),
     ];
 
     return [
