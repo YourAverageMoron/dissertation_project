@@ -16,6 +16,7 @@ class StatisticsPage extends StatelessWidget {
               children: <Widget>[
                 Expanded(
                   child: StatisticsContainer(
+                    padding: EdgeInsets.fromLTRB(20, 20, 10, 10),
                     child: WrittenStatistic(
                       header: "Total screen time today",
                       statistic: "5h 15m", //TODO INSERT STAT HERE
@@ -24,6 +25,7 @@ class StatisticsPage extends StatelessWidget {
                 ),
                 Expanded(
                   child: StatisticsContainer(
+                    padding: EdgeInsets.fromLTRB(10, 20, 20, 10),
                     child: WrittenStatistic(
                       header: "Total app opens today",
                       statistic: "50", //TODO INSERT STAT HERE
@@ -33,20 +35,31 @@ class StatisticsPage extends StatelessWidget {
               ],
             ),
             StatisticsContainer(
-              height: 300,
+                padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                height: 300,
                 child: Column(
-              children: <Widget>[
-                FittedBox(
-                    child: Text(
+                  children: <Widget>[
+                    FittedBox(
+                        child: Text(
                       "Weekly score comparison",
                       style: Theme.of(context).textTheme.subtitle1,
                       overflow: TextOverflow.ellipsis,
                     )),
-                Expanded(child:SimpleBarChart.withSampleData()),
-              ],
-            )),
-            StatisticsContainer(child: PieOutsideLabelChart.withSampleData()),
-            StatisticsContainer(child: PieOutsideLabelChart.withSampleData()),
+                    Expanded(child: SimpleBarChart.withSampleData()),
+                  ],
+                )),
+            StatisticsContainer(
+                height: 200,
+                padding: EdgeInsets.fromLTRB(20, 10, 20, 20),
+                child: Column(children: <Widget>[
+                  FittedBox(
+                      child: Text(
+                    "Application screen time breakdown",
+                    style: Theme.of(context).textTheme.subtitle1,
+                    overflow: TextOverflow.ellipsis,
+                  )),
+                  Expanded(child: PieOutsideLabelChart.withSampleData())
+              ])),
           ],
         ));
   }
