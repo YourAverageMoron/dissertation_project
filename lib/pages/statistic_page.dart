@@ -1,131 +1,67 @@
 import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:dissertation_project/bloc/statistics/statistics_bloc.dart';
+import 'package:dissertation_project/bloc/statistics/statistics_events.dart';
+import 'package:dissertation_project/bloc/statistics/statistics_state.dart';
+import 'package:dissertation_project/widgets/statistics/statistics_container.dart';
+import 'package:dissertation_project/widgets/statistics/written_statistics.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class StatisticsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).backgroundColor,
+        backgroundColor: Theme.of(context).backgroundColor,
         appBar: AppBar(
           title: Text("Statistics"),
         ),
-        body: ListView(
-          scrollDirection: Axis.vertical,
-          children: <Widget>[
-            Row(
-              children: <Widget>[
-                Expanded(
-                  child: StatisticsContainer(
-                    padding: EdgeInsets.fromLTRB(20, 20, 10, 10),
-                    child: WrittenStatistic(
-                      header: "Total screen time today",
-                      statistic: "5h 15m", //TODO INSERT STAT HERE
-                    ),
+        body: BlocBuilder<StatsBloc, StatsState>(builder: (context, state) {
+          if (state is StatsEmpty) {
+            BlocProvider.of<StatsBloc>(context).add(FetchStats());
+          }
+          return ListView(
+            scrollDirection: Axis.vertical,
+            children: <Widget>[
+              Row(
+                children: <Widget>[
+                  Expanded(
+                    child: AppsScreenTimeStatistic()
                   ),
-                ),
-                Expanded(
-                  child: StatisticsContainer(
-                    padding: EdgeInsets.fromLTRB(10, 20, 20, 10),
-                    child: WrittenStatistic(
-                      header: "Total app opens today",
-                      statistic: "50", //TODO INSERT STAT HERE
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            StatisticsContainer(
-                padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-                height: 300,
-                child: Column(
-                  children: <Widget>[
+                  Expanded(
+                    child: AppsOpenedStatistic(),
+                  )
+                ],
+              ),
+              StatisticsContainer(
+                  padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                  height: 300,
+                  child: Column(
+                    children: <Widget>[
+                      FittedBox(
+                          child: Text(
+                        "Weekly score comparison",
+                        style: Theme.of(context).textTheme.subtitle1,
+                        overflow: TextOverflow.ellipsis,
+                      )),
+                      Expanded(child: SimpleBarChart.withSampleData()),
+                    ],
+                  )),
+              StatisticsContainer(
+                  height: 200,
+                  padding: EdgeInsets.fromLTRB(20, 10, 20, 20),
+                  child: Column(children: <Widget>[
                     FittedBox(
                         child: Text(
-                      "Weekly score comparison",
+                      "Application screen time breakdown",
                       style: Theme.of(context).textTheme.subtitle1,
                       overflow: TextOverflow.ellipsis,
                     )),
-                    Expanded(child: SimpleBarChart.withSampleData()),
-                  ],
-                )),
-            StatisticsContainer(
-                height: 200,
-                padding: EdgeInsets.fromLTRB(20, 10, 20, 20),
-                child: Column(children: <Widget>[
-                  FittedBox(
-                      child: Text(
-                    "Application screen time breakdown",
-                    style: Theme.of(context).textTheme.subtitle1,
-                    overflow: TextOverflow.ellipsis,
-                  )),
-                  Expanded(child: PieOutsideLabelChart.withSampleData())
-              ])),
-          ],
-        ));
-  }
-}
-
-class StatisticsContainer extends StatelessWidget {
-  final Widget child;
-  final EdgeInsets padding;
-  final double height;
-
-  StatisticsContainer(
-      {@required this.child,
-      this.padding = const EdgeInsets.all(10),
-      this.height = 150.0});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: padding,
-      child: Container(
-        decoration: new BoxDecoration(
-            color: Colors.white,
-            borderRadius: new BorderRadius.only(
-              topLeft: const Radius.circular(10.0),
-              topRight: const Radius.circular(10.0),
-              bottomLeft: const Radius.circular(10.0),
-              bottomRight: const Radius.circular(10.0),
-            )),
-        height: height,
-        child: Padding(padding: EdgeInsets.all(10), child: child),
-      ),
-    );
-  }
-}
-
-class WrittenStatistic extends StatelessWidget {
-  final String header;
-  final String statistic;
-
-  WrittenStatistic({@required this.header, @required this.statistic});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: <Widget>[
-        Padding(
-            padding: EdgeInsets.only(bottom: 10),
-            child: FittedBox(
-                child: Text(
-              header,
-              style: Theme.of(context).textTheme.subtitle1,
-              overflow: TextOverflow.ellipsis,
-            ))),
-        FittedBox(
-          fit: BoxFit.fitWidth,
-          child: Text(
-            statistic,
-            style: Theme.of(context).textTheme.headline2,
-            overflow: TextOverflow.ellipsis,
-          ),
-        ),
-      ],
-    );
+                    Expanded(child: PieOutsideLabelChart.withSampleData())
+                  ])),
+            ],
+          );
+        }));
   }
 }
 

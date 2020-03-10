@@ -6,6 +6,7 @@ import 'package:dissertation_project/helpers/shared_preferences/scaled_score_tim
 
 class ScoreRepository {
 
+  //TODO INJECT THESE
   final PhoneUsageStatistics _phoneUsageStatistics = PhoneUsageStatistics();
   final ScaledScoreTimesPreferences _scaledScoreTimesPreferences =
   ScaledScoreTimesPreferences();

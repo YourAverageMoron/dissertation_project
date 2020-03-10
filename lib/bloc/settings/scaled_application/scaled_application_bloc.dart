@@ -3,7 +3,6 @@ import 'package:dissertation_project/bloc/settings/scaled_application/scaled_app
 import 'package:dissertation_project/data/app_scaler/scaled_app.dart';
 import 'package:dissertation_project/data/app_scaler/scaled_app_repository.dart';
 import 'package:dissertation_project/kiwi_di/injector.dart';
-import 'package:dissertation_project/widgets/settings/scaled_application_editor.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ScaledApplicationBloc

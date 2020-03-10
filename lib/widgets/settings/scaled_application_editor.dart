@@ -26,15 +26,17 @@ class ScaledApplicationEditorCard extends StatelessWidget {
 }
 
 ScaledApp testScaledApp = ScaledApp(
-    appName: "app", scaleFactor: 0.4, packageName: "com.android.chrome", icon: null);
+    appName: "app",
+    scaleFactor: 0.4,
+    packageName: "com.android.chrome",
+    icon: null);
 
 class DropdownContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ScaledApplicationBloc, ScaledApplicationState>(
         builder: (context, state) {
-
-      if(state is ScaledApplicationFormState){
+      if (state is ScaledApplicationFormState) {
         return ScaledApplicationForm(scaledApp: state.scaledApp);
       }
       if (state is ScaledApplicationsLoaded) {
@@ -95,7 +97,6 @@ class EditScaledApplicationCard extends StatelessWidget {
   }
 }
 
-
 //TODO THIS IS WRONG
 // Use https://bloclibrary.dev/#/flutterlogintutorial?id=login-form
 class ScaledApplicationForm extends StatelessWidget {
@@ -137,16 +138,18 @@ class ScaledApplicationForm extends StatelessWidget {
                 child: Text('Cancel'),
                 textColor: Colors.white,
                 color: Colors.grey,
-                onPressed: () {  },),
+                onPressed: () {},
+              ),
               Spacer(),
               RaisedButton(
-                child: Text('Update'),
-                textColor: Colors.white,
-                color: Colors.blue,
-                onPressed: () {
-                  //ScaledApp newScaledApp = ScaledApp(); //TODO WORK OUT HOW TO CREATE THE SCALED APP
-                  BlocProvider.of<ScaledApplicationBloc>(context)
-                    .add(AddScaledApp(testScaledApp));}),
+                  child: Text('Update'),
+                  textColor: Colors.white,
+                  color: Colors.blue,
+                  onPressed: () {
+                    //ScaledApp newScaledApp = ScaledApp(); //TODO WORK OUT HOW TO CREATE THE SCALED APP
+                    BlocProvider.of<ScaledApplicationBloc>(context)
+                        .add(AddScaledApp(testScaledApp));
+                  }),
               Spacer(),
             ],
           )
