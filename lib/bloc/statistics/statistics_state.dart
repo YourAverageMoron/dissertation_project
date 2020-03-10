@@ -14,7 +14,7 @@ class StatsLoading extends StatsState {}
 
 class StatsLoaded extends StatsState {
   final int applicationOpens;
-  final double appScreenTime;
+  final String appScreenTime;
 
   const StatsLoaded(
       {@required this.applicationOpens, @required this.appScreenTime})

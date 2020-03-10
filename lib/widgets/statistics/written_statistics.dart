@@ -23,7 +23,7 @@ class AppsOpenedStatistic extends StatelessWidget {
         } else {
           return WrittenStatistic(
             header: "Total app opens today",
-            statistic: "Not loaded".toString(),
+            statistic: "Not loaded",
           );
         }
       }),
@@ -32,7 +32,6 @@ class AppsOpenedStatistic extends StatelessWidget {
 }
 
 class AppsScreenTimeStatistic extends StatelessWidget {
-
   final EdgeInsets padding;
 
   AppsScreenTimeStatistic({this.padding});
@@ -44,13 +43,13 @@ class AppsScreenTimeStatistic extends StatelessWidget {
       child: BlocBuilder<StatsBloc, StatsState>(builder: (context, state) {
         if (state is StatsLoaded) {
           return WrittenStatistic(
-            header: "Total app opens today",
-            statistic: state.appScreenTime.toString(),
+            header: "App screen time today",
+            statistic: state.appScreenTime,
           );
         } else {
           return WrittenStatistic(
-            header: "Total app opens today",
-            statistic: "Not loaded".toString(),
+            header: "App opens today",
+            statistic: "Not loaded",
           );
         }
       }),

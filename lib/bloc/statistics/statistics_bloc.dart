@@ -21,15 +21,35 @@ class StatsBloc extends Bloc<StatsEvent, StatsState> {
 
         final double applicationOpens = await _phoneUsageStatistics
             .getTotalApplicationOpens(startOfDay, now);
-        final double appScreenTime =
-            await _phoneUsageStatistics.getTotalAppUsageTime(startOfDay, now);
+
+        final String applicationScreenTime =
+            await _getAppScreenTimeString(startOfDay, now);
+
         yield StatsLoaded(
           applicationOpens: applicationOpens.round().toInt(),
-          appScreenTime: appScreenTime,
+          appScreenTime: applicationScreenTime,
         );
       } catch (_) {
         yield StatsError();
       }
     }
+  }
+
+  Future<String> _getAppScreenTimeString(
+      DateTime startTime, DateTime endTime) async {
+    final Duration appScreenTime = Duration(
+        milliseconds: (await _phoneUsageStatistics.getTotalAppUsageTime(
+                startTime, endTime))
+            .round()
+            .toInt());
+
+    String twoDigits(int n) {
+      if (n >= 10) return "$n";
+      return "0$n";
+    }
+
+    String twoDigitMinutes = twoDigits(appScreenTime.inMinutes.remainder(60));
+    String twoDigitSeconds = twoDigits(appScreenTime.inSeconds.remainder(60));
+    return "${twoDigits(appScreenTime.inHours)}:$twoDigitMinutes:$twoDigitSeconds";
   }
 }
