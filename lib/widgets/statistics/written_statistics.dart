@@ -6,10 +6,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AppsOpenedStatistic extends StatelessWidget {
+  final EdgeInsets padding;
+
+  AppsOpenedStatistic({this.padding});
+
   @override
   Widget build(BuildContext context) {
     return StatisticsContainer(
-      padding: EdgeInsets.fromLTRB(10, 20, 20, 10),
+      padding: padding,
       child: BlocBuilder<StatsBloc, StatsState>(builder: (context, state) {
         if (state is StatsLoaded) {
           return WrittenStatistic(
@@ -28,10 +32,15 @@ class AppsOpenedStatistic extends StatelessWidget {
 }
 
 class AppsScreenTimeStatistic extends StatelessWidget {
+
+  final EdgeInsets padding;
+
+  AppsScreenTimeStatistic({this.padding});
+
   @override
   Widget build(BuildContext context) {
     return StatisticsContainer(
-      padding: EdgeInsets.fromLTRB(20, 20, 10, 10),
+      padding: padding,
       child: BlocBuilder<StatsBloc, StatsState>(builder: (context, state) {
         if (state is StatsLoaded) {
           return WrittenStatistic(

@@ -26,10 +26,13 @@ class StatisticsPage extends StatelessWidget {
               Row(
                 children: <Widget>[
                   Expanded(
-                    child: AppsScreenTimeStatistic()
-                  ),
+                      child: AppsScreenTimeStatistic(
+                    padding: EdgeInsets.fromLTRB(20, 20, 10, 10),
+                  )),
                   Expanded(
-                    child: AppsOpenedStatistic(),
+                    child: AppsOpenedStatistic(
+                      padding: EdgeInsets.fromLTRB(10, 20, 20, 10),
+                    ),
                   )
                 ],
               ),
