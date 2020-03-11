@@ -1,3 +1,4 @@
+import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:dissertation_project/bloc/statistics/statistics_events.dart';
 import 'package:dissertation_project/bloc/statistics/statistics_state.dart';
 import 'package:dissertation_project/data/phone_usage/app_usage_statistic.dart';
@@ -20,8 +21,7 @@ class StatsBloc extends Bloc<StatsEvent, StatsState> {
       yield StatsLoading();
       try {
         DateTime now = DateTime.now();
-        DateTime startOfDay =
-            DateTime(now.year, now.month, now.day, 0, 0);
+        DateTime startOfDay = DateTime(now.year, now.month, now.day, 0, 0);
 
         final double applicationOpens = await _phoneUsageStatistics
             .getTotalApplicationOpens(startOfDay, now);
@@ -32,13 +32,16 @@ class StatsBloc extends Bloc<StatsEvent, StatsState> {
         Map<String, AppUsageStat> appUsageStats =
             await _appUsageTime.getUsageStats(startOfDay, now);
 
-        print(123);
+        List<charts.Series> appScreenTimePieData =
+            getAppScreenTimeBreakdown(appUsageStats);
+        print(appScreenTimePieData);
 
         appUsageStats.forEach((key, value) {
           print('${value.getPackageName()} ${value.getTimeInForground()}');
         });
 
         yield StatsLoaded(
+          appScreenTimePieData: appScreenTimePieData,
           applicationOpens: applicationOpens.round().toInt(),
           appScreenTime: applicationScreenTime,
         );
@@ -46,6 +49,26 @@ class StatsBloc extends Bloc<StatsEvent, StatsState> {
         yield StatsError();
       }
     }
+  }
+
+  List<charts.Series> getAppScreenTimeBreakdown(
+      Map<String, AppUsageStat> appUsageStats) {
+    List<AppUsageStat> data = [];
+    appUsageStats.forEach((key, value) {
+      data.add(value);
+    });
+    return [
+      new charts.Series<AppUsageStat, int>(
+        id: 'AppScreenTimeBreakdown',
+        domainFn: (AppUsageStat stat, _) =>
+            stat.getTimeInForground().round().toInt(),
+        measureFn: (AppUsageStat stat, _) => stat.getTimeInForground(),
+        data: data,
+        // Set a label accessor to control the text of the arc label.
+        labelAccessorFn: (AppUsageStat row, _) =>
+            '${row.getPackageName()}: ${row.getTimeInForground()}',
+      )
+    ];
   }
 
   Future<String> _getAppScreenTimeString(

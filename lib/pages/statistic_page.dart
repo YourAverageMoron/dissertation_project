@@ -61,7 +61,7 @@ class StatisticsPage extends StatelessWidget {
                       style: Theme.of(context).textTheme.subtitle1,
                       overflow: TextOverflow.ellipsis,
                     )),
-                    Expanded(child: PieOutsideLabelChart.withSampleData())
+                    Expanded(child: AppScreenTimeBreakdown())
                   ])),
             ],
           );
