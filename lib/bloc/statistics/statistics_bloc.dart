@@ -29,13 +29,13 @@ class StatsBloc extends Bloc<StatsEvent, StatsState> {
         final String applicationScreenTime =
             await _getAppScreenTimeString(startOfDay, now);
 
-        List<AppUsageStat> appUsageStats =
+        Map<String, AppUsageStat> appUsageStats =
             await _appUsageTime.getUsageStats(startOfDay, now);
 
         print(123);
 
-        appUsageStats.forEach((element) {
-          print('${element.getPackageName()} ${element.getTimeInForground()}');
+        appUsageStats.forEach((key, value) {
+          print('${value.getPackageName()} ${value.getTimeInForground()}');
         });
 
         yield StatsLoaded(

@@ -8,37 +8,38 @@ class GetAppUsageTimes {
   static const platform =
       const MethodChannel('uk.ac.bath.dissertation_project/helper_methods');
 
-  Future<List<AppUsageStat>> getUsageStats(
+  Future<Map<String, AppUsageStat>> getUsageStats(
       DateTime startDate, DateTime endDate) async {
-    List<AppUsageStat> appUsageStats =
+    Map<String, AppUsageStat> appUsageStats =
         await _fetchAppUsageStats(startDate, endDate);
 
-    Map<String, double> appScreenTime =
+    Map<String, double> appScreenTimes =
         await _getScreenTimeStats(startDate, endDate);
 
-    String packageName;
-    for (AppUsageStat appUsageStat in appUsageStats) {
-      packageName = appUsageStat.getPackageName();
-      if (appScreenTime.containsKey(packageName)) {
-        appUsageStat.setTimeInForground(appScreenTime[packageName] * 1000);
-        appScreenTime.remove(packageName);
-      }
-    }
-    appScreenTime.forEach((key, value) {
-      appUsageStats.add(AppUsageStat(key, value * 1000, 0));
+    appScreenTimes.forEach((key, value) {
+      appUsageStats[key] = (appUsageStats.containsKey(key))
+          ? AppUsageStat(key, value, appUsageStats[key].getLaunchCount())
+          : AppUsageStat(key, value, 0);
     });
 
+//    String packageName;
+//    for (AppUsageStat appUsageStat in appUsageStats) {
+//      packageName = appUsageStat.getPackageName();
+//      if (appScreenTime.containsKey(packageName)) {
+//        appUsageStat.setTimeInForground(appScreenTime[packageName] * 1000);
+//        appScreenTime.remove(packageName);
+//      }
+//    }
+//    appScreenTime.forEach((key, value) {
+//      appUsageStats.add(AppUsageStat(key, value * 1000, 0));
+//    });
 
-
-    appUsageStats = appUsageStats
-        .where((element) =>
-            element.getPackageName() != 'uk.ac.bath.dissertation_project')
-        .toList();
+    appUsageStats.remove('uk.ac.bath.dissertation_project');
 
     return appUsageStats;
   }
 
-  Future<List<AppUsageStat>> _fetchAppUsageStats(
+  Future<Map<String, AppUsageStat>> _fetchAppUsageStats(
       DateTime startDate, DateTime endDate) async {
     try {
       int startTime = startDate.millisecondsSinceEpoch;
@@ -52,10 +53,15 @@ class GetAppUsageTimes {
           .map((appUsage) => AppUsageStat.fromJson(jsonDecode(appUsage)))
           .toList();
 
-      return appUsageList;
+      Map<String, AppUsageStat> mapAppUsageStats = Map.fromIterable(
+          appUsageList,
+          key: (appUsage) => appUsage.getPackageName(),
+          value: (appUsage) => appUsage);
+
+      return mapAppUsageStats;
     } on PlatformException catch (e) {
       print(e);
-      return [];
+      return {};
     }
   }
 
