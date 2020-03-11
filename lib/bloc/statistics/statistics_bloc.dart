@@ -1,5 +1,7 @@
 import 'package:dissertation_project/bloc/statistics/statistics_events.dart';
 import 'package:dissertation_project/bloc/statistics/statistics_state.dart';
+import 'package:dissertation_project/data/phone_usage/app_usage_statistic.dart';
+import 'package:dissertation_project/data/phone_usage/get_app_usage_times.dart';
 import 'package:dissertation_project/data/phone_usage/phone_usage_statistics.dart';
 import 'package:dissertation_project/kiwi_di/injector.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,6 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class StatsBloc extends Bloc<StatsEvent, StatsState> {
   final PhoneUsageStatistics _phoneUsageStatistics =
       Injector.resolve<PhoneUsageStatistics>();
+  final GetAppUsageTimes _appUsageTime = Injector.resolve<GetAppUsageTimes>();
 
   @override
   StatsState get initialState => StatsEmpty();
@@ -17,13 +20,23 @@ class StatsBloc extends Bloc<StatsEvent, StatsState> {
       yield StatsLoading();
       try {
         DateTime now = DateTime.now();
-        DateTime startOfDay = DateTime(now.year, now.month, now.day, 0, 0, 0);
+        DateTime startOfDay =
+            DateTime(now.year, now.month, now.day, 0, 0);
 
         final double applicationOpens = await _phoneUsageStatistics
             .getTotalApplicationOpens(startOfDay, now);
 
         final String applicationScreenTime =
             await _getAppScreenTimeString(startOfDay, now);
+
+        List<AppUsageStat> appUsageStats =
+            await _appUsageTime.getUsageStats(startOfDay, now);
+
+        print(123);
+
+        appUsageStats.forEach((element) {
+          print('${element.getPackageName()} ${element.getTimeInForground()}');
+        });
 
         yield StatsLoaded(
           applicationOpens: applicationOpens.round().toInt(),

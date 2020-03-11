@@ -16,4 +16,8 @@ class AppUsageStat{
   String getPackageName(){ return _packageName; }
   double getTimeInForground(){ return _timeInForground; }
   int getLaunchCount(){ return _launchCount; }
+
+  void setTimeInForground(double timeInForground){
+    _timeInForground = timeInForground;
+  }
 }
