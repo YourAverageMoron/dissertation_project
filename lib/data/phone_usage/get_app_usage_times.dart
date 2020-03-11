@@ -24,7 +24,8 @@ class GetAppUsageTimes {
 
     appUsageStats.remove('uk.ac.bath.dissertation_project');
 
-    //REMOVE THIS AS IT LOGS EVERY TIME YOU RETURN TO MAIN OS (I.E NO APP LAUNCH)
+    //com.google.android.apps.nexuslauncher SEEMS TO BE THE OS
+    // You dont really want to look at every time the os is opened (essentially doubles all app opens)
     appUsageStats['com.google.android.apps.nexuslauncher'] = AppUsageStat(
         'com.google.android.apps.nexuslauncher',
         appUsageStats['com.google.android.apps.nexuslauncher']
