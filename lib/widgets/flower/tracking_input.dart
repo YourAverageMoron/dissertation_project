@@ -30,7 +30,6 @@ class TrackingState extends State<TrackingInput> {
         return FlowerContainer(state.animationControls);
       }
       if(state is ScoreLoaded){
-       // print(state.animationControls.)
         return FlowerContainer(state.animationControls);
       }
       return Text("This state should never happen");
