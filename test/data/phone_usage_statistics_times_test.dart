@@ -14,8 +14,8 @@ void main() {
   final AppUsageStat appUsageStat2 = AppUsageStat.fromJson(
       {'packageName': 'package2', 'timeInForground': 200, 'launchCount': 6});
 
-  final Future<List<AppUsageStat>> futureUsageStats =
-      new Future(() => [appUsageStat1, appUsageStat2]);
+  final Future<Map<String,AppUsageStat>> futureUsageStats =
+      new Future(() => {'package1': appUsageStat1, 'package2': appUsageStat2});
 
   final DateTime startDate = DateTime(2020, 01, 12, 16, 30);
   final DateTime endDate = DateTime(2020, 01, 12, 18, 00);
