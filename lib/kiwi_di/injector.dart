@@ -1,3 +1,4 @@
+import 'package:dissertation_project/bloc/statistics/statistics_bloc_helper.dart';
 import 'package:dissertation_project/data/app_scaler/scaled_app_repository.dart';
 import 'package:dissertation_project/data/phone_usage/get_app_usage_times.dart';
 import 'package:dissertation_project/data/phone_usage/phone_usage_statistics.dart';
@@ -18,6 +19,7 @@ abstract class Injector {
 
   static final resolve = container.resolve;
 
+  @Register.singleton(StatsBlocHelper)
   @Register.singleton(PhoneUsageStatistics)
   @Register.singleton(ScaledAppRepository)
   @Register.singleton(ScaledAppPreferences)
