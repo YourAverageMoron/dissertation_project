@@ -14,7 +14,7 @@ class AppDrawer extends StatelessWidget{
             DrawerHeader(
               child: Text('Drawer Header'),
               decoration: BoxDecoration(
-                color: Colors.blue,
+                color: Theme.of(context).primaryColor,
               ),
             ),
             ListTile(
@@ -31,6 +31,22 @@ class AppDrawer extends StatelessWidget{
               onTap: () {
                 Navigator.pop(context);
                 Navigator.pushNamed(context, APPUSAGE);
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.insert_chart),
+              title: Text('Statistics'),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.pushNamed(context, STATISTICS);
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.settings),
+              title: Text('Settings'),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.pushNamed(context, SETTINGS);
               },
             ),
           ],

@@ -1,5 +1,9 @@
+import 'package:dissertation_project/data/app_scaler/scaled_app_repository.dart';
 import 'package:dissertation_project/data/phone_usage/get_app_usage_times.dart';
-import 'package:dissertation_project/data/score/score.dart';
+import 'package:dissertation_project/data/phone_usage/phone_usage_statistics.dart';
+import 'package:dissertation_project/data/score/score_repository.dart';
+import 'package:dissertation_project/helpers/shared_preferences/scaled_apps_preferences.dart';
+import 'package:dissertation_project/helpers/system_packages_info/package_manager_repository.dart';
 import 'package:kiwi/kiwi.dart';
 
 part 'injector.g.dart';
@@ -14,6 +18,10 @@ abstract class Injector {
 
   static final resolve = container.resolve;
 
+  @Register.singleton(PhoneUsageStatistics)
+  @Register.singleton(ScaledAppRepository)
+  @Register.singleton(ScaledAppPreferences)
+  @Register.singleton(PackageManagerRepository)
   @Register.singleton(ScoreRepository)
   @Register.singleton(GetAppUsageTimes)
   void configure();

@@ -18,3 +18,6 @@ samples, guidance on mobile development, and a full API reference.
 
 ## Coverage
 https://codecov.io/gh/YourAverageMoron/dissertation_project
+
+
+`flutter packages pub run build_runner build`

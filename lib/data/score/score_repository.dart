@@ -1,11 +1,12 @@
 import 'package:dissertation_project/data/phone_usage/phone_usage_statistics.dart';
-import 'package:dissertation_project/data/shared_preferences/scaled_score_times_preferences.dart';
 import 'package:dissertation_project/data/time_scaler/comparable_time_of_day.dart';
 import 'package:dissertation_project/data/time_scaler/scaled_score_time.dart';
 import 'package:dissertation_project/helpers/datetime_helpers.dart';
+import 'package:dissertation_project/helpers/shared_preferences/scaled_score_times_preferences.dart';
 
 class ScoreRepository {
 
+  //TODO INJECT THESE
   final PhoneUsageStatistics _phoneUsageStatistics = PhoneUsageStatistics();
   final ScaledScoreTimesPreferences _scaledScoreTimesPreferences =
   ScaledScoreTimesPreferences();
