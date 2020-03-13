@@ -38,7 +38,7 @@ class SimpleBarChart extends StatelessWidget {
     return [
       new charts.Series<OrdinalSales, String>(
         id: 'Sales',
-        colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
+        colorFn: (_, __) => charts.MaterialPalette.teal.shadeDefault,
         domainFn: (OrdinalSales sales, _) => sales.year,
         measureFn: (OrdinalSales sales, _) => sales.sales,
         data: data,

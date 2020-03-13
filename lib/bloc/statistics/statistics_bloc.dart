@@ -7,6 +7,7 @@ import 'package:dissertation_project/data/phone_usage/phone_usage_statistics.dar
 import 'package:dissertation_project/helpers/system_packages_info/package_manager_repository.dart';
 import 'package:dissertation_project/kiwi_di/injector.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_package_manager/flutter_package_manager.dart';
 
 class StatsBloc extends Bloc<StatsEvent, StatsState> {
   final PhoneUsageStatistics _phoneUsageStatistics =
@@ -36,12 +37,7 @@ class StatsBloc extends Bloc<StatsEvent, StatsState> {
             await _appUsageTime.getUsageStats(startOfDay, now);
 
         List<charts.Series> appScreenTimePieData =
-            getAppScreenTimeBreakdown(appUsageStats);
-        print(appScreenTimePieData);
-
-        appUsageStats.forEach((key, value) {
-          print('${value.getPackageName()} ${value.getTimeInForground()}');
-        });
+            await getAppScreenTimeBreakdown(appUsageStats);
 
         yield StatsLoaded(
           appScreenTimePieData: appScreenTimePieData,
@@ -54,27 +50,26 @@ class StatsBloc extends Bloc<StatsEvent, StatsState> {
     }
   }
 
-  List<charts.Series> getAppScreenTimeBreakdown(
-      Map<String, AppUsageStat> appUsageStats) {
-    List<Map<String, AppUsageStat>> data = [];
-    appUsageStats.forEach((key, value) async {
-      data.add({
-        await _packageManagerRepository
-            .getPackageInfo(value.getPackageName())
-            .then((value) => value.appName): value
-      });
-    });
+  Future<List<charts.Series>> getAppScreenTimeBreakdown(
+      Map<String, AppUsageStat> appUsageStats) async {
+    List<AppScreenTimeData> data = [];
+
+    for (AppUsageStat appUsageStat in appUsageStats.values) {
+      if ((appUsageStat.getTimeInForground() / 1000 / 60) > 1) {
+        PackageInfo packageInfo = await _packageManagerRepository
+            .getPackageInfo(appUsageStat.getPackageName());
+        data.add(AppScreenTimeData(packageInfo.appName, appUsageStat));
+      }
+    }
 
     return [
-      new charts.Series<Map<String, AppUsageStat>, int>(
+      new charts.Series<AppScreenTimeData, String>(
         id: 'AppScreenTimeBreakdown',
-        domainFn: (Map<String, AppUsageStat> stat, _) =>
-            stat.values.first.getTimeInForground().round().toInt(),
-        measureFn: (Map<String, AppUsageStat> stat, _) =>
-            stat.values.first.getTimeInForground(),
+        domainFn: (AppScreenTimeData stat, _) => stat.appName,
+        measureFn: (AppScreenTimeData stat, _) =>
+            stat.appUsageStat.getTimeInForground(),
         data: data,
-        labelAccessorFn: (Map<String, AppUsageStat> row, _) =>
-            '${row.keys.first}',
+        labelAccessorFn: (AppScreenTimeData row, _) => '${row.appName}',
       )
     ];
   }
@@ -86,7 +81,6 @@ class StatsBloc extends Bloc<StatsEvent, StatsState> {
                 startTime, endTime))
             .round()
             .toInt());
-
     String twoDigits(int n) {
       if (n >= 10) return "$n";
       return "0$n";
@@ -96,4 +90,11 @@ class StatsBloc extends Bloc<StatsEvent, StatsState> {
     String twoDigitSeconds = twoDigits(appScreenTime.inSeconds.remainder(60));
     return "${twoDigits(appScreenTime.inHours)}:$twoDigitMinutes:$twoDigitSeconds";
   }
+}
+
+class AppScreenTimeData {
+  String appName;
+  AppUsageStat appUsageStat;
+
+  AppScreenTimeData(this.appName, this.appUsageStat);
 }

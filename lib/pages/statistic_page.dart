@@ -52,7 +52,7 @@ class StatisticsPage extends StatelessWidget {
                     ],
                   )),
               StatisticsContainer(
-                  height: 200,
+                  height: 400,
                   padding: EdgeInsets.fromLTRB(20, 10, 20, 20),
                   child: Column(children: <Widget>[
                     FittedBox(
