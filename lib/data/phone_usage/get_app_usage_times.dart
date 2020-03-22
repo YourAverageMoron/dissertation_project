@@ -6,43 +6,47 @@ import 'package:flutter/services.dart';
 
 class GetAppUsageTimes {
   static const platform =
-  const MethodChannel('uk.ac.bath.dissertation_project/helper_methods');
+      const MethodChannel('uk.ac.bath.dissertation_project/helper_methods');
 
-  Future<Map<String, AppUsageStat>> getUsageStats(DateTime startDate,
-      DateTime endDate) async {
+  Future<Map<String, AppUsageStat>> getUsageStats(
+      DateTime startDate, DateTime endDate) async {
     Map<String, AppUsageStat> appUsageStats =
-    await _fetchAppUsageStats(startDate, endDate);
+        await _fetchAppUsageStats(startDate, endDate);
 
     Map<String, double> appScreenTimes =
-    await _getScreenTimeStats(startDate, endDate);
+        await _getScreenTimeStats(startDate, endDate);
 
     appScreenTimes.forEach((key, value) {
       appUsageStats[key] = (appUsageStats.containsKey(key))
-          ? AppUsageStat(key, value*1000, appUsageStats[key].getLaunchCount())
-          : AppUsageStat(key, value*1000, 0);
+          ? AppUsageStat(key, value * 1000, appUsageStats[key].getLaunchCount())
+          : AppUsageStat(key, value * 1000, 0);
     });
 
     appUsageStats.remove('uk.ac.bath.dissertation_project');
 
     //com.google.android.apps.nexuslauncher SEEMS TO BE THE OS
     // You dont really want to look at every time the os is opened (essentially doubles all app opens)
-    appUsageStats['com.google.android.apps.nexuslauncher'] = AppUsageStat(
-        'com.google.android.apps.nexuslauncher',
-        appUsageStats['com.google.android.apps.nexuslauncher']
-            .getTimeInForground(), 0);
+    if (appUsageStats.containsKey('com.google.android.apps.nexuslauncher')) {
+      appUsageStats['com.google.android.apps.nexuslauncher'] = AppUsageStat(
+          'com.google.android.apps.nexuslauncher',
+          appUsageStats['com.google.android.apps.nexuslauncher']
+              .getTimeInForground(),
+          0);
+    }
+    appUsageStats.forEach((key, value) {print('${value.getPackageName()} ${value.getLaunchCount()} ${value.getTimeInForground()}');});
 
     return appUsageStats;
   }
 
-  Future<Map<String, AppUsageStat>> _fetchAppUsageStats(DateTime startDate,
-      DateTime endDate) async {
+  Future<Map<String, AppUsageStat>> _fetchAppUsageStats(
+      DateTime startDate, DateTime endDate) async {
     try {
       int startTime = startDate.millisecondsSinceEpoch;
       int endTime = endDate.millisecondsSinceEpoch;
 
       Map<String, int> interval = {'startTime': startTime, 'endTime': endTime};
       List<dynamic> result =
-      await platform.invokeMethod('getUsageStats', interval);
+          await platform.invokeMethod('getUsageStats', interval);
 
       List<AppUsageStat> appUsageList = result
           .map((appUsage) => AppUsageStat.fromJson(jsonDecode(appUsage)))
@@ -60,8 +64,8 @@ class GetAppUsageTimes {
     }
   }
 
-  Future<Map<String, double>> _getScreenTimeStats(DateTime startDate,
-      DateTime endDate) async {
+  Future<Map<String, double>> _getScreenTimeStats(
+      DateTime startDate, DateTime endDate) async {
     AppUsage appUsage = new AppUsage();
     try {
       Map<String, double> usage = await appUsage.fetchUsage(startDate, endDate);

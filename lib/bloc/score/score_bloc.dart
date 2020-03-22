@@ -24,7 +24,8 @@ class ScoreBloc extends Bloc<ScoreEvent, ScoreState> {
       final int score = await _scoreRepository.generateScore(DateTime.now());
       _animationControls.updateScore(score.toDouble());
       yield ScoreLoaded(score: score, animationControls: _animationControls);
-    } catch (_) {
+    } catch (e) {
+      print(e);
       yield ScoreError(animationControls: _animationControls);
     }
   }
