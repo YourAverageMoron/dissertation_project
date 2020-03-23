@@ -7,13 +7,6 @@ import 'package:dissertation_project/helpers/system_packages_info/package_manage
 import 'package:dissertation_project/kiwi_di/injector.dart';
 import 'package:flutter_package_manager/flutter_package_manager.dart';
 
-//TODO THERSE SHOULDN'T BE HERE
-PackageManagerRepository _packageManagerRepository =
-    Injector.resolve<PackageManagerRepository>();
-final PhoneUsageStatistics _phoneUsageStatistics =
-    Injector.resolve<PhoneUsageStatistics>();
-final ScoreRepository _scoreRepository = Injector.resolve<ScoreRepository>();
-
 class DailyScore {
   String day;
   int score;
@@ -29,6 +22,11 @@ class AppScreenTimeData {
 }
 
 class StatsBlocHelper {
+  PackageManagerRepository _packageManagerRepository =
+      Injector.resolve<PackageManagerRepository>();
+  final PhoneUsageStatistics _phoneUsageStatistics =
+      Injector.resolve<PhoneUsageStatistics>();
+  final ScoreRepository _scoreRepository = Injector.resolve<ScoreRepository>();
   DateTimeHelpers _dateTimeHelpers = Injector.resolve<DateTimeHelpers>();
 
   Future<List<charts.Series>> getAppScreenTimeBreakdown(

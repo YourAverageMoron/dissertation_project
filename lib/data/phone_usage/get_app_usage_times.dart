@@ -33,8 +33,6 @@ class GetAppUsageTimes {
               .getTimeInForground(),
           0);
     }
-    appUsageStats.forEach((key, value) {print('${value.getPackageName()} ${value.getLaunchCount()} ${value.getTimeInForground()}');});
-
     return appUsageStats;
   }
 
