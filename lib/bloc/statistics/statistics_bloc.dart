@@ -37,7 +37,11 @@ class StatsBloc extends Bloc<StatsEvent, StatsState> {
         List<charts.Series> appScreenTimePieData =
             await _statsBlocHelper.getAppScreenTimeBreakdown(appUsageStats);
 
+        List<charts.Series> barChartWeeklyScores =
+            await _statsBlocHelper.getWeeklyScores();
+
         yield StatsLoaded(
+          barChartScoreData: barChartWeeklyScores,
           appScreenTimePieData: appScreenTimePieData,
           applicationOpens: applicationOpens.round().toInt(),
           appScreenTime: applicationScreenTime,

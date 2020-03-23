@@ -2,19 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class LeaderboardTile extends StatelessWidget {
-  String name;
-  String value;
-  IconData icon;
+  final String name;
+  final String value;
+  final IconData icon;
 
 
-  LeaderboardTile(
-      {String name = "Name not specified",
-      String value = "Value not specified",
-      IconData icon = Icons.device_unknown}) {
-    this.name = name;
-    this.value = value;
-    this.icon = icon;
-  }
+  LeaderboardTile({this.value, this.name, this.icon});
 
   /*
     TODO https://pub.dev/packages/koukicons

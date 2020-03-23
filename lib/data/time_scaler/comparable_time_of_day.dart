@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class ComparableTimeOfDay extends TimeOfDay {
 
-  DateTimeHelpers _dateTimeHelpers = DateTimeHelpers();
+  final DateTimeHelpers _dateTimeHelpers = DateTimeHelpers();
 
   ComparableTimeOfDay({ @required hour, @required minute }): super(hour:hour, minute:minute);
 

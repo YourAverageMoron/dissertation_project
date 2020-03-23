@@ -5,10 +5,19 @@ import 'package:dissertation_project/helpers/system_packages_info/package_manage
 import 'package:dissertation_project/kiwi_di/injector.dart';
 import 'package:flutter_package_manager/flutter_package_manager.dart';
 
+//TODO THERSE SHOULDN'T BE HERE
 PackageManagerRepository _packageManagerRepository =
     Injector.resolve<PackageManagerRepository>();
 final PhoneUsageStatistics _phoneUsageStatistics =
     Injector.resolve<PhoneUsageStatistics>();
+final ScoreRepository _scoreRepository = Injector.resolve<ScoreRepository>();
+
+class DailyScore {
+  String day;
+  int score;
+
+  DailyScore(this.day, this.score);
+}
 
 class AppScreenTimeData {
   String appName;
@@ -18,6 +27,8 @@ class AppScreenTimeData {
 }
 
 class StatsBlocHelper {
+  DateTimeHelpers _dateTimeHelpers = Injector.resolve<DateTimeHelpers>();
+
   Future<List<charts.Series>> getAppScreenTimeBreakdown(
       Map<String, AppUsageStat> appUsageStats) async {
     List<AppScreenTimeData> data = [];
@@ -55,5 +66,37 @@ class StatsBlocHelper {
     String twoDigitMinutes = twoDigits(appScreenTime.inMinutes.remainder(60));
     String twoDigitSeconds = twoDigits(appScreenTime.inSeconds.remainder(60));
     return "${twoDigits(appScreenTime.inHours)}:$twoDigitMinutes:$twoDigitSeconds";
+  }
+
+  Future<List<DailyScore>> getListOfScores() async {
+    DateTime now = DateTime.now();
+
+    DateTime dateTime = now;
+    List<DailyScore> scores = [
+      DailyScore(_dateTimeHelpers.getWeekday(dateTime).substring(0, 3),
+          await _scoreRepository.generateScore(dateTime))
+    ];
+
+    for (int i = 1; i < 7; i++) {
+      dateTime = DateTime(now.year, now.month, now.day - i, 23, 59, 59);
+      scores.add(DailyScore(
+          _dateTimeHelpers.getWeekday(dateTime).substring(0, 3),
+          await _scoreRepository.generateScore(dateTime)));
+    }
+    return scores.reversed.toList();
+  }
+
+  Future<List<charts.Series<DailyScore, String>>> getWeeklyScores() async {
+    final data = await getListOfScores();
+
+    return [
+      new charts.Series<DailyScore, String>(
+        id: 'Sales',
+        colorFn: (_, __) => charts.MaterialPalette.teal.shadeDefault,
+        domainFn: (DailyScore sales, _) => sales.day,
+        measureFn: (DailyScore sales, _) => sales.score,
+        data: data,
+      )
+    ];
   }
 }
