@@ -1,6 +1,8 @@
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:dissertation_project/data/phone_usage/app_usage_statistic.dart';
 import 'package:dissertation_project/data/phone_usage/phone_usage_statistics.dart';
+import 'package:dissertation_project/data/score/score_repository.dart';
+import 'package:dissertation_project/helpers/datetime_helpers.dart';
 import 'package:dissertation_project/helpers/system_packages_info/package_manager_repository.dart';
 import 'package:dissertation_project/kiwi_di/injector.dart';
 import 'package:flutter_package_manager/flutter_package_manager.dart';
