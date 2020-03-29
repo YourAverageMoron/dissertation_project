@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: Colors.teal[700],
         backgroundColor: Colors.teal[50],
-        accentColor: Colors.cyan[600],
+        accentColor: Colors.tealAccent,
       )
     );
   }
