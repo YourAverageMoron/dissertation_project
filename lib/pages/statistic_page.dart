@@ -48,11 +48,11 @@ class StatisticsPage extends StatelessWidget {
                         style: Theme.of(context).textTheme.subtitle1,
                         overflow: TextOverflow.ellipsis,
                       )),
-                      Expanded(child: SimpleBarChart.withSampleData()),
+                      Expanded(child: WeeklyScoreBarChart()),
                     ],
                   )),
               StatisticsContainer(
-                  height: 200,
+                  height: 400,
                   padding: EdgeInsets.fromLTRB(20, 10, 20, 20),
                   child: Column(children: <Widget>[
                     FittedBox(

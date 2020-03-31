@@ -17,14 +17,17 @@ class StatsLoaded extends StatsState {
   final int applicationOpens;
   final String appScreenTime;
   final List<charts.Series> appScreenTimePieData;
+  final List<charts.Series> barChartScoreData;
 
   const StatsLoaded(
       {@required this.appScreenTimePieData,
       @required this.applicationOpens,
-      @required this.appScreenTime})
+      @required this.appScreenTime,
+      @required this.barChartScoreData})
       : assert(applicationOpens != null &&
             appScreenTime != null &&
-            appScreenTimePieData != null);
+            appScreenTimePieData != null &&
+            barChartScoreData != null);
 
   @override
   List<Object> get props => [applicationOpens];

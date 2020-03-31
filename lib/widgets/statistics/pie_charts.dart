@@ -25,10 +25,19 @@ class PieOutsideLabelChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new charts.PieChart(seriesList,
-        animate: animate,
-        defaultRenderer: new charts.ArcRendererConfig(arcRendererDecorators: [
-          new charts.ArcLabelDecorator(
-              labelPosition: charts.ArcLabelPosition.outside)
-        ]));
+      animate: false,
+      behaviors: [
+        new charts.DatumLegend(
+          position: charts.BehaviorPosition.bottom,
+          horizontalFirst: false,
+          cellPadding: new EdgeInsets.only(right: 4.0, bottom: 4.0),
+          showMeasures: true,
+          legendDefaultMeasure: charts.LegendDefaultMeasure.firstValue,
+          measureFormatter: (num value) {
+            return value == null ? '-' : '${(value/1000/60).round()} mins';
+          },
+        )
+      ],
+    );
   }
 }

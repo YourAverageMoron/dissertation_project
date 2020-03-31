@@ -2,47 +2,39 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class LeaderboardTile extends StatelessWidget {
-  String name;
-  String value;
-  IconData icon;
-
+  final String name;
+  final String score;
+  final String rank;
+  final Color color;
 
   LeaderboardTile(
-      {String name = "Name not specified",
-      String value = "Value not specified",
-      IconData icon = Icons.device_unknown}) {
-    this.name = name;
-    this.value = value;
-    this.icon = icon;
-  }
-
-  /*
-    TODO https://pub.dev/packages/koukicons
-    Get some decent icons that can be used
-    TODO MAYBE USE FLUTTER AVATAR https://api.flutter.dev/flutter/material/CircleAvatar-class.html
-   */
+      {@required this.rank,
+      @required this.name,
+      @required this.score,
+      this.color = Colors.white
+      });
   @override
   Widget build(BuildContext context) {
     return Card(
+      color: color,
       child: ListTile(
-        leading: Text(
-          value,
-          textScaleFactor: 2,
-        ),
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          //TODO this is a bit of a grim way of positioning (is there a better approach?)
-          children: <Widget>[
-            Icon(icon,
-              color: Colors.deepOrange,
-            ),
-            Container(
-              padding: EdgeInsets.only(left: 20.0),
-              child: Text(name))
-          ],
-        ),
-        trailing: Text(value,
-          textScaleFactor: 1.5,)
+        leading: Text(this.rank),
+        title: Text(this.name),
+        trailing: Text(this.score),
+      ),
+    );
+  }
+}
+
+class LeaderboardHeader extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      color: Theme.of(context).accentColor,
+      child: ListTile(
+        leading: Text("Rank"),
+        title: Text("Name"),
+        trailing: Text("Score"),
       ),
     );
   }

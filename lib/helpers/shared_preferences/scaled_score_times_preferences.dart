@@ -52,7 +52,7 @@ class ScaledScoreTimesPreferences {
     prefs.setStringList(SCALED_SCORE_TIMES_PREFS, list);
   }
 
-  Future<List<ScaledScoreTime>> getScaledScoreTimes() async {
+  Future<List<ScaledScoreTime>> getScaledTimes() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     List<String> stringTimes =
         prefs.getStringList(SCALED_SCORE_TIMES_PREFS); //sort out the key
@@ -63,9 +63,9 @@ class ScaledScoreTimesPreferences {
     return _orderByStartTime(objectTimes);
   }
 
-  Future<List<ScaledScoreTime>> getAllTimesScored(
+  Future<List<ScaledScoreTime>> getAllTimesScaled(
       ComparableTimeOfDay endTime) async {
-    List<ScaledScoreTime> scaledScoreTimes = await getScaledScoreTimes();
+    List<ScaledScoreTime> scaledScoreTimes = await getScaledTimes();
 
     List<ScaledScoreTime> allTimes =
         _addScaledTimesToList(scaledScoreTimes, endTime);

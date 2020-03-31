@@ -1,4 +1,5 @@
 import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:dissertation_project/bloc/statistics/statistics_bloc_helper.dart';
 import 'package:dissertation_project/bloc/statistics/statistics_events.dart';
 import 'package:dissertation_project/bloc/statistics/statistics_state.dart';
 import 'package:dissertation_project/data/phone_usage/app_usage_statistic.dart';
@@ -11,6 +12,7 @@ class StatsBloc extends Bloc<StatsEvent, StatsState> {
   final PhoneUsageStatistics _phoneUsageStatistics =
       Injector.resolve<PhoneUsageStatistics>();
   final GetAppUsageTimes _appUsageTime = Injector.resolve<GetAppUsageTimes>();
+  final StatsBlocHelper _statsBlocHelper = Injector.resolve<StatsBlocHelper>();
 
   @override
   StatsState get initialState => StatsEmpty();
@@ -27,20 +29,19 @@ class StatsBloc extends Bloc<StatsEvent, StatsState> {
             .getTotalApplicationOpens(startOfDay, now);
 
         final String applicationScreenTime =
-            await _getAppScreenTimeString(startOfDay, now);
+            await _statsBlocHelper.getAppScreenTimeString(startOfDay, now);
 
         Map<String, AppUsageStat> appUsageStats =
             await _appUsageTime.getUsageStats(startOfDay, now);
 
         List<charts.Series> appScreenTimePieData =
-            getAppScreenTimeBreakdown(appUsageStats);
-        print(appScreenTimePieData);
+            await _statsBlocHelper.getAppScreenTimeBreakdown(appUsageStats);
 
-        appUsageStats.forEach((key, value) {
-          print('${value.getPackageName()} ${value.getTimeInForground()}');
-        });
+        List<charts.Series> barChartWeeklyScores =
+            await _statsBlocHelper.getWeeklyScores();
 
         yield StatsLoaded(
+          barChartScoreData: barChartWeeklyScores,
           appScreenTimePieData: appScreenTimePieData,
           applicationOpens: applicationOpens.round().toInt(),
           appScreenTime: applicationScreenTime,
@@ -49,43 +50,5 @@ class StatsBloc extends Bloc<StatsEvent, StatsState> {
         yield StatsError();
       }
     }
-  }
-
-  List<charts.Series> getAppScreenTimeBreakdown(
-      Map<String, AppUsageStat> appUsageStats) {
-    List<AppUsageStat> data = [];
-    appUsageStats.forEach((key, value) {
-      data.add(value);
-    });
-    return [
-      new charts.Series<AppUsageStat, int>(
-        id: 'AppScreenTimeBreakdown',
-        domainFn: (AppUsageStat stat, _) =>
-            stat.getTimeInForground().round().toInt(),
-        measureFn: (AppUsageStat stat, _) => stat.getTimeInForground(),
-        data: data,
-        // Set a label accessor to control the text of the arc label.
-        labelAccessorFn: (AppUsageStat row, _) =>
-            '${row.getPackageName()}: ${row.getTimeInForground()}',
-      )
-    ];
-  }
-
-  Future<String> _getAppScreenTimeString(
-      DateTime startTime, DateTime endTime) async {
-    final Duration appScreenTime = Duration(
-        milliseconds: (await _phoneUsageStatistics.getTotalAppUsageTime(
-                startTime, endTime))
-            .round()
-            .toInt());
-
-    String twoDigits(int n) {
-      if (n >= 10) return "$n";
-      return "0$n";
-    }
-
-    String twoDigitMinutes = twoDigits(appScreenTime.inMinutes.remainder(60));
-    String twoDigitSeconds = twoDigits(appScreenTime.inSeconds.remainder(60));
-    return "${twoDigits(appScreenTime.inHours)}:$twoDigitMinutes:$twoDigitSeconds";
   }
 }

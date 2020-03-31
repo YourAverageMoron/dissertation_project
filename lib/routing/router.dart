@@ -1,3 +1,4 @@
+import 'package:dissertation_project/bloc/leaderboard/leaderboard_bloc.dart';
 import 'package:dissertation_project/bloc/score/score_bloc.dart';
 import 'package:dissertation_project/bloc/settings/scaled_application/scaled_application_bloc.dart';
 import 'package:dissertation_project/bloc/statistics/statistics_bloc.dart';
@@ -11,29 +12,29 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-//TODO you might be able to inject hte ones with state? i don
 class Router {
   static Route<dynamic> generateRoute(RouteSettings routeSettings) {
     switch (routeSettings.name) {
       case HOME:
-        return MaterialPageRoute(builder: (_) => BlocProvider(
-            create: (context) =>
-            ScoreBloc(),
-            child: HomePage()));
+        return MaterialPageRoute(
+            builder: (_) => BlocProvider(
+                create: (context) => ScoreBloc(), child: HomePage()));
       case LEADERBOARD:
-        return MaterialPageRoute(builder: (_) => LeaderboardPage());
+        return MaterialPageRoute(
+            builder: (_) => BlocProvider(
+                create: (context) => LeaderboardBloc(),
+                child: LeaderboardPage()));
       case APPUSAGE:
         return MaterialPageRoute(builder: (_) => AppUsagePage());
       case STATISTICS:
-        return MaterialPageRoute(builder: (_) => BlocProvider(
-            create: (context) =>
-                StatsBloc(),
-            child: StatisticsPage()));
+        return MaterialPageRoute(
+            builder: (_) => BlocProvider(
+                create: (context) => StatsBloc(), child: StatisticsPage()));
       case SETTINGS:
-        return MaterialPageRoute(builder: (_) => BlocProvider(
-            create: (context) =>
-                ScaledApplicationBloc(),
-            child: SettingsPage()));
+        return MaterialPageRoute(
+            builder: (_) => BlocProvider(
+                create: (context) => ScaledApplicationBloc(),
+                child: SettingsPage()));
       default:
         return MaterialPageRoute(
             builder: (_) => Scaffold(
