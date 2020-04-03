@@ -34,127 +34,110 @@ ScaledApp testScaledApp = ScaledApp(
 class DropdownContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ScaledApplicationBloc, ScaledApplicationState>(
-        builder: (context, state) {
-      if (state is ScaledApplicationFormState) {
-        return ScaledApplicationForm(scaledApp: state.scaledApp);
-      }
-      if (state is ScaledApplicationsLoaded) {
-        List<ScaledApp> listApps = [];
-        state.scaledApps.forEach((key, value) => listApps.add(value));
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<AddScaledAppFormBloc>(
+          create: (context) => AddScaledAppFormBloc(),
+        ),
+        BlocProvider<ScaledAppListBloc>(
+          create: (context) => ScaledAppListBloc(),
+        ),
+      ],
+      child: Builder(builder: (context) {
+        // ignore: close_sinks
+        final AddScaledAppFormBloc addScaledAppFormBloc =
+            context.bloc<AddScaledAppFormBloc>();
+        // ignore: close_sinks
+        final ScaledAppListBloc scaledAppListBloc =
+            context.bloc<ScaledAppListBloc>();
         return Column(
           children: <Widget>[
-            ListView.builder(
-                itemCount: state.scaledApps.length,
-                scrollDirection: Axis.vertical,
-                shrinkWrap: true,
-                itemBuilder: (context, index) {
-                  return EditScaledApplicationCard(scaledApp: listApps[index]);
-                }),
-            RaisedButton(
-              child: Text("Add a new scaled application"),
-              color: Colors.green,
-              textColor: Colors.white,
-              onPressed: () => BlocProvider.of<ScaledApplicationBloc>(context)
-                  .add(AddScaledApp(
-                      testScaledApp)), // todo this needs to create a popup instead
-            ),
+            AddScaledAppForm(addScaledAppFormBloc, scaledAppListBloc),
+            SelectedScaledApps(scaledAppListBloc, addScaledAppFormBloc),
           ],
         );
-      }
-      BlocProvider.of<ScaledApplicationBloc>(context).add(LoadScaledApp());
-      return Text("Please wait"); //TODO I MIGHT WANT A WAITING THING HERE
+      }),
+    );
+  }
+}
+
+class SelectedScaledApps extends StatelessWidget {
+  final ScaledAppListBloc scaledAppListBloc;
+  final AddScaledAppFormBloc addScaledAppFormBloc;
+
+  SelectedScaledApps(this.scaledAppListBloc, this.addScaledAppFormBloc);
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return BlocBuilder<ScaledAppListBloc, List<ScaledApp>>(
+        builder: (context, state) {
+      return ListView.builder(
+          itemCount: state.length,
+          scrollDirection: Axis.vertical,
+          shrinkWrap: true,
+          itemBuilder: (context, index) {
+            return _ScaledApplicationCard(
+              scaledApp: state[index],
+              addScaledAppFormBloc: addScaledAppFormBloc,
+              scaledAppListBloc: scaledAppListBloc,
+            );
+          });
     });
   }
 }
 
-class EditScaledApplicationCard extends StatelessWidget {
+class _ScaledApplicationCard extends StatelessWidget {
   final ScaledApp scaledApp;
+  final AddScaledAppFormBloc addScaledAppFormBloc;
+  final ScaledAppListBloc scaledAppListBloc;
 
-  EditScaledApplicationCard({@required this.scaledApp});
+  _ScaledApplicationCard(
+      {this.scaledApp, this.addScaledAppFormBloc, this.scaledAppListBloc});
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ScaledApplicationBloc, ScaledApplicationState>(
-        builder: (context, state) {
-      return Card(
-          child: ListTile(
-        onTap: () => BlocProvider.of<ScaledApplicationBloc>(context)
-            .add(ScaledAppFormEvent(scaledApp)),
-        leading: scaledApp.getIcon(),
-        title: Text(scaledApp.getAppName()),
-        subtitle: Text(scaledApp.getScaleFactor().toString()),
-        trailing: IconButton(
-          icon: Icon(Icons.remove),
-          color: Colors.red,
-          onPressed: () {
-            BlocProvider.of<ScaledApplicationBloc>(context)
-                .add(DeleteScaledApp(scaledApp));
-          },
+    return Card(
+        child: ListTile(
+      leading: scaledApp.getIcon(),
+      title: Text(scaledApp.getAppName()),
+      subtitle: Text(scaledApp.getScaleFactor().toString()),
+      trailing: IconButton(
+        icon: Icon(Icons.remove),
+        color: Colors.red,
+        onPressed: () {
+          Function.apply(addScaledAppFormBloc.removeScaledApp,
+              [scaledAppListBloc, scaledApp]);
+        },
+      ),
+    ));
+  }
+}
+
+class AddScaledAppForm extends StatelessWidget {
+  final AddScaledAppFormBloc addScaledAppFormBloc;
+  final ScaledAppListBloc scaledAppListBloc;
+
+  AddScaledAppForm(this.addScaledAppFormBloc, this.scaledAppListBloc);
+
+  @override
+  Widget build(BuildContext context) {
+    return FormBlocListener<AddScaledAppFormBloc, String, String>(
+        child: Row(children: <Widget>[
+      Expanded(
+          child: TextFieldBlocBuilder(
+        decoration: InputDecoration(
+          prefixIcon: Icon(Icons.apps),
+          labelText: "some",
         ),
-      ));
-    });
-  }
-}
-
-//TODO THIS IS WRONG
-// Use https://bloclibrary.dev/#/flutterlogintutorial?id=login-form
-class ScaledApplicationForm extends StatelessWidget {
-  final ScaledApp scaledApp;
-
-  ScaledApplicationForm({@required this.scaledApp});
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<ScaledApplicationBloc, ScaledApplicationState>(
-        builder: (context, state) {
-      return Column(
-        children: <Widget>[
-          Padding(
-            padding: EdgeInsets.all(10),
-            child: TextField(
-              readOnly: true,
-              controller: TextEditingController(text: scaledApp.getAppName()),
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: 'Application Name',
-              ),
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.all(10),
-            child: TextField(
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: 'Scale factor',
-              ),
-            ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Spacer(),
-              RaisedButton(
-                child: Text('Cancel'),
-                textColor: Colors.white,
-                color: Colors.grey,
-                onPressed: () {},
-              ),
-              Spacer(),
-              RaisedButton(
-                  child: Text('Update'),
-                  textColor: Colors.white,
-                  color: Colors.blue,
-                  onPressed: () {
-                    //ScaledApp newScaledApp = ScaledApp(); //TODO WORK OUT HOW TO CREATE THE SCALED APP
-                    BlocProvider.of<ScaledApplicationBloc>(context)
-                        .add(AddScaledApp(testScaledApp));
-                  }),
-              Spacer(),
-            ],
-          )
-        ],
-      );
-    });
+        textFieldBloc: addScaledAppFormBloc.textField,
+      )),
+      IconButton(
+        color: Colors.green,
+        onPressed: () => Function.apply(
+            addScaledAppFormBloc.addScaledApp, [scaledAppListBloc, 2.0]),
+        icon: Icon(Icons.add_circle),
+      )
+    ]));
   }
 }
