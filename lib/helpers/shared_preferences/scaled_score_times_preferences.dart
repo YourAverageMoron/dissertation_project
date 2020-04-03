@@ -56,10 +56,12 @@ class ScaledScoreTimesPreferences {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     List<String> stringTimes =
         prefs.getStringList(SCALED_SCORE_TIMES_PREFS); //sort out the key
-    List<Object> objectTimes = stringTimes
-        .map((stringTime) => ScaledScoreTime.fromJson(jsonDecode(stringTime)))
-        .toList();
-
+    List<ScaledScoreTime> objectTimes = [];
+    if(stringTimes != null) {
+      objectTimes = stringTimes
+          .map((stringTime) => ScaledScoreTime.fromJson(jsonDecode(stringTime)))
+          .toList();
+    }
     return _orderByStartTime(objectTimes);
   }
 

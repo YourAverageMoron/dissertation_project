@@ -11,7 +11,7 @@ class ScaledAppRepository {
   Injector.resolve<PackageManagerRepository>();
 
   Future<Map<String, ScaledApp>> getAllScaledApps() async {
-    List<String> packages =
+    List<dynamic> packages =
     await _packageManagerRepository.getInstalledPackages();
 
     Map<String, ScaledApp> scaledApps = {};

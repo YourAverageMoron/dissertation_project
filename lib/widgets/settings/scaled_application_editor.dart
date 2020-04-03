@@ -1,10 +1,10 @@
-import 'package:dissertation_project/bloc/settings/scaled_application/scaled_application_bloc.dart';
-import 'package:dissertation_project/bloc/settings/scaled_application/scaled_application_event.dart';
-import 'package:dissertation_project/bloc/settings/scaled_application/scaled_application_state.dart';
+import 'package:dissertation_project/bloc/settings/scaled_application/add_scaled_app_form_bloc.dart';
+import 'package:dissertation_project/bloc/settings/scaled_application/scaled_app_list_bloc.dart';
 import 'package:dissertation_project/data/app_scaler/scaled_app.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_form_bloc/flutter_form_bloc.dart';
 
 //TODO COULD MAKE THIS GENERIC?
 //PASS IN TEXT AND INSIDE WIDGET?
@@ -15,7 +15,7 @@ class ScaledApplicationEditorCard extends StatelessWidget {
       child: Padding(
         padding: EdgeInsets.only(top: 36.0, left: 6.0, right: 6.0, bottom: 6.0),
         child: ExpansionTile(
-          title: Text('Applications that scale your score'),
+          title: Text('Your "bad" applications'),
           children: <Widget>[
             DropdownContent(),
           ],
@@ -24,12 +24,6 @@ class ScaledApplicationEditorCard extends StatelessWidget {
     );
   }
 }
-
-ScaledApp testScaledApp = ScaledApp(
-    appName: "app",
-    scaleFactor: 0.4,
-    packageName: "com.android.chrome",
-    icon: null);
 
 class DropdownContent extends StatelessWidget {
   @override
