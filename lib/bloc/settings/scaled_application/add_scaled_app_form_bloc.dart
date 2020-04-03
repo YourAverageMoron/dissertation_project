@@ -6,24 +6,23 @@ import 'package:flutter_form_bloc/flutter_form_bloc.dart';
 import 'package:fuzzy/fuzzy.dart';
 
 class AddScaledAppFormBloc extends FormBloc<String, String> {
+  /// Repositories
   final _scaledAppRepository = Injector.resolve<ScaledAppRepository>();
 
+  /// Blocs
+  final ScaledAppListBloc scaledAppListBloc = ScaledAppListBloc();
+  final textField = TextFieldBloc(suggestions: getSuggestions,);
+  AddScaledAppFormBloc() {addFieldBlocs(fieldBlocs: [textField,]);}
 
-  static final List<ScaledApp> unselectedApps = [
+  final List<ScaledApp> unselectedApps = [
     ScaledApp(
         appName: "name1", packageName: "package1", icon: null, scaleFactor: 1),
     ScaledApp(
         appName: "name2", packageName: "package2", icon: null, scaleFactor: 1),
   ];
-  static final List<String> unselectedStrings = ["name1", "name2"];
-
   final List<ScaledApp> selectedApps = [];
 
-  AddScaledAppFormBloc() {
-    addFieldBlocs(fieldBlocs: [
-      textField,
-    ]);
-  }
+  static final List<String> unselectedStrings = ["name1", "name2"];
 
   static Future<List<String>> getSuggestions(String pattern) {
     final fuse = Fuzzy(unselectedStrings);
@@ -32,11 +31,7 @@ class AddScaledAppFormBloc extends FormBloc<String, String> {
     return new Future(() => results);
   }
 
-  final textField = TextFieldBloc(
-    suggestions: getSuggestions,
-  );
-
-  void addScaledApp(ScaledAppListBloc scaledAppListBloc, double scaleFactor) {
+  void addScaledApp(double scaleFactor) {
     int chosenAppIndex = unselectedApps
         .indexWhere((element) => element.getAppName() == textField.value);
     if (chosenAppIndex >= 0) {
@@ -54,7 +49,7 @@ class AddScaledAppFormBloc extends FormBloc<String, String> {
   }
 
   void removeScaledApp(
-      ScaledAppListBloc scaledAppListBloc, ScaledApp scaledApp) {
+      ScaledApp scaledApp) {
     int chosenAppIndex = selectedApps
         .indexWhere((element) => element == scaledApp);
     if (chosenAppIndex >= 0) {
