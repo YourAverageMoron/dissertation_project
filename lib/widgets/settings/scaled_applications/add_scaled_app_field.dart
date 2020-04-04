@@ -20,7 +20,7 @@ class AddScaledAppField extends StatelessWidget {
               child: TextFieldBlocBuilder(
             decoration: InputDecoration(
               prefixIcon: Icon(Icons.apps),
-              labelText: "some",
+              labelText: "Select an application",
             ),
             textFieldBloc: addScaledAppFormBloc.textField,
           )),
