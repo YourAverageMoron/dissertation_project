@@ -1,5 +1,6 @@
 import 'package:dissertation_project/bloc/leaderboard/leaderboard_bloc.dart';
 import 'package:dissertation_project/bloc/score/score_bloc.dart';
+import 'package:dissertation_project/bloc/settings/settings_bloc.dart';
 import 'package:dissertation_project/bloc/statistics/statistics_bloc.dart';
 import 'package:dissertation_project/pages/app_usage_page.dart';
 import 'package:dissertation_project/pages/home_page.dart';
@@ -30,7 +31,9 @@ class Router {
             builder: (_) => BlocProvider(
                 create: (context) => StatsBloc(), child: StatisticsPage()));
       case SETTINGS:
-        return MaterialPageRoute(builder: (_) => SettingsPage());
+        return MaterialPageRoute(
+            builder: (_) => BlocProvider(
+                create: (context) => SettingsBloc(), child: SettingsPage()));
       default:
         return MaterialPageRoute(
             builder: (_) => Scaffold(
