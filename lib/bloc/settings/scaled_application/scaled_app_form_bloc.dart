@@ -7,7 +7,6 @@ import 'package:fuzzy/fuzzy.dart';
 class ScaledAppFormBloc extends FormBloc<String, String> {
   /// Blocs
   final ScaledAppListBloc scaledAppListBloc = ScaledAppListBloc();
-
   // ignore: close_sinks
   TextFieldBloc textField;
 

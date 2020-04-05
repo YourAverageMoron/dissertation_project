@@ -21,17 +21,16 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         final Map<String, ScaledApp> scaledApps =
             await _scaledAppRepository.getAllScaledApps();
 
-
-
         yield SettingsLoaded(
-            scaledApps: scaledApps,
-            doubleAppBloc:
-                ScaledAppFormBloc(scaledApps: scaledApps, scaleFactor: 2.0),
-            halfAppBloc:
-                ScaledAppFormBloc(scaledApps: scaledApps, scaleFactor: 0.5),
-            doubleTimeBloc: ScaledTimeFormBloc(scaleFactor: null, scaledApps: null),
+          scaledApps: scaledApps,
+          doubleAppBloc:
+              ScaledAppFormBloc(scaledApps: scaledApps, scaleFactor: 2.0),
+          halfAppBloc:
+              ScaledAppFormBloc(scaledApps: scaledApps, scaleFactor: 0.5),
+          doubleTimeBloc:
+              ScaledTimeFormBloc(scaledTimes: null, scaleFactor: 2.0),
         );
-              } catch (e) {
+      } catch (e) {
         print(e);
       }
     }
@@ -39,16 +38,15 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
 
   void addScaledApp(double scaleFactor, ScaledAppFormBloc bloc) {
     SettingsLoaded settingsLoaded = state as SettingsLoaded;
-    int index = settingsLoaded.scaledApps.values.toList().indexWhere(
-        (element) =>
-            element.getAppName() ==
-                bloc.textField.value);
-    if(index >=0) {
+    int index = settingsLoaded.scaledApps.values
+        .toList()
+        .indexWhere((element) => element.getAppName() == bloc.textField.value);
+    if (index >= 0) {
       settingsLoaded.scaledApps.values
           .toList()[index]
           .setScaleFactor(scaleFactor);
-      settingsLoaded.doubleAppBloc.updateScaledApps(
-          (settingsLoaded.scaledApps));
+      settingsLoaded.doubleAppBloc
+          .updateScaledApps((settingsLoaded.scaledApps));
       settingsLoaded.halfAppBloc.updateScaledApps((settingsLoaded.scaledApps));
       bloc.textField.clear();
       _scaledAppRepository.saveScaledApps(settingsLoaded.scaledApps);

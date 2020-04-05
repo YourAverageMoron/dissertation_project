@@ -10,7 +10,10 @@ abstract class ScaledAppListEvent extends Equatable {
 
 class UpdateScaledAppList extends ScaledAppListEvent {
   final List<ScaledApp> scaledApps;
-  const UpdateScaledAppList({@required this.scaledApps}) : assert(scaledApps != null);
+
+  const UpdateScaledAppList({@required this.scaledApps})
+      : assert(scaledApps != null);
+
   @override
   List<List<ScaledApp>> get props => [scaledApps];
 }

@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:dissertation_project/data/time_scaler/comparable_time_of_day.dart';
 import 'package:dissertation_project/data/time_scaler/scaled_score_time.dart';
 import 'package:dissertation_project/helpers/shared_preferences/preference_keys.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -43,9 +42,8 @@ var timeOfDay = [
 ];
 
 //TODO I THINK I SHOULD PULL SOME OF THE LOGIC OUT OF HERE
-  // JUST HAVE SET AND GET JSON
+// JUST HAVE SET AND GET JSON
 class ScaledScoreTimesPreferences {
-
   void storeScaleScoreTimes(List<Object> scaledScoreTimes) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var list = scaledScoreTimes.map((time) => jsonEncode(time)).toList();
@@ -55,9 +53,9 @@ class ScaledScoreTimesPreferences {
   Future<List<ScaledScoreTime>> getScaledTimes() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     List<String> stringTimes =
-    prefs.getStringList(SCALED_SCORE_TIMES_PREFS); //sort out the key
+        prefs.getStringList(SCALED_SCORE_TIMES_PREFS); //sort out the key
     List<ScaledScoreTime> objectTimes = [];
-    if(stringTimes != null) {
+    if (stringTimes != null) {
       objectTimes = stringTimes
           .map((stringTime) => ScaledScoreTime.fromJson(jsonDecode(stringTime)))
           .toList();
