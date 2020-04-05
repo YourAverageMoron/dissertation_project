@@ -23,7 +23,7 @@ class SettingsPage extends StatelessWidget {
                       "Apps selected in this section will affect your score more, choose applications that you want to use less",
                   child: ScaledAppExtendCardContent(
                     settingsBloc: context.bloc(),
-                    addScaledAppFormBloc: state.doubleAppBloc,
+                    scaledAppFormBloc: state.doubleAppBloc,
                   ),
                 ),
                 SettingsExpandCard(
@@ -32,7 +32,7 @@ class SettingsPage extends StatelessWidget {
                       "Apps selected in this section will affect your score less, we recommend selecting prodictivity or educational applications",
                   child: ScaledAppExtendCardContent(
                     settingsBloc: context.bloc(),
-                    addScaledAppFormBloc: state.halfAppBloc,
+                    scaledAppFormBloc: state.halfAppBloc,
                   ),
                 ),
               ]);

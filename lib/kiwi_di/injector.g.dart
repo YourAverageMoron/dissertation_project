@@ -9,6 +9,7 @@ part of 'injector.dart';
 class _$Injector extends Injector {
   void configure() {
     final Container container = Container();
+    container.registerSingleton((c) => ScaledTimeRepository());
     container.registerSingleton((c) => ScaledScoreTimesPreferences());
     container.registerSingleton((c) => DateTimeHelpers());
     container.registerSingleton((c) => StatsBlocHelper());

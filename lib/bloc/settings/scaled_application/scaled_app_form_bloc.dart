@@ -4,9 +4,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_form_bloc/flutter_form_bloc.dart';
 import 'package:fuzzy/fuzzy.dart';
 
-class AddScaledAppFormBloc extends FormBloc<String, String> {
+class ScaledAppFormBloc extends FormBloc<String, String> {
   /// Blocs
   final ScaledAppListBloc scaledAppListBloc = ScaledAppListBloc();
+
   // ignore: close_sinks
   TextFieldBloc textField;
 
@@ -14,10 +15,13 @@ class AddScaledAppFormBloc extends FormBloc<String, String> {
   List<String> unselectedStrings = [];
   double scaleFactor;
 
-  AddScaledAppFormBloc(
-      {@required Map<String, ScaledApp> scaledApps,
-      @required this.scaleFactor}) {
-    textField = TextFieldBloc(suggestions: getSuggestions);
+  ScaledAppFormBloc({@required Map<String, ScaledApp> scaledApps,
+    @required this.scaleFactor}) {
+    textField = TextFieldBloc(
+        suggestions: _getSuggestions,
+        validators: [_textFieldValidator],
+        asyncValidatorDebounceTime: Duration(milliseconds: 300),
+    );
     addFieldBlocs(fieldBlocs: [textField]);
     updateScaledApps(scaledApps);
   }
@@ -32,21 +36,23 @@ class AddScaledAppFormBloc extends FormBloc<String, String> {
         unselectedStrings.add(scaledApp.getAppName());
       }
     }
-    selectedApps.forEach((element) {
-      print(element);
-    });
     scaledAppListBloc.add(UpdateScaledAppList(scaledApps: selectedApps));
   }
 
-  Future<List<String>> getSuggestions(String pattern) {
+  @override
+  void onSubmitting() {}
+
+  Future<List<String>> _getSuggestions(String pattern) {
     final fuse = Fuzzy(unselectedStrings);
     final List<String> results =
-        fuse.search(pattern).map((e) => e.item).toList();
+    fuse.search(pattern).map((e) => e.item).toList();
     return new Future(() => results);
   }
 
-  @override
-  void onSubmitting() {
-    //TODO implement
+  String _textFieldValidator(String string){
+    if(unselectedStrings.contains(string)){
+      return null;
+    }
+    return "Not an installed application";
   }
 }

@@ -1,8 +1,8 @@
 import 'package:dissertation_project/data/app_scaler/scaled_app.dart';
-import 'package:dissertation_project/data/app_scaler/scaled_app_repository.dart';
 import 'package:dissertation_project/helpers/shared_preferences/scaled_apps_preferences.dart';
-import 'package:dissertation_project/helpers/system_packages_info/package_manager_repository.dart';
 import 'package:dissertation_project/kiwi_di/injector.dart';
+import 'package:dissertation_project/repositories/package_manager_repository.dart';
+import 'package:dissertation_project/repositories/scaled_app_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:kiwi/kiwi.dart';
 import 'package:mockito/mockito.dart';

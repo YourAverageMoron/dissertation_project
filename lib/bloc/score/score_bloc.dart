@@ -1,6 +1,6 @@
 import 'package:dissertation_project/bloc/score/score_event.dart';
-import 'package:dissertation_project/data/score/score_repository.dart';
 import 'package:dissertation_project/kiwi_di/injector.dart';
+import 'package:dissertation_project/repositories/score_repository.dart';
 import 'package:dissertation_project/widgets/flower/animation_controls.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

@@ -1,4 +1,5 @@
-import 'package:dissertation_project/bloc/settings/scaled_application/add_scaled_app_form_bloc.dart';
+import 'package:dissertation_project/bloc/settings/scaled_application/scaled_app_form_bloc.dart';
+import 'package:dissertation_project/bloc/settings/scaled_time/scaled_time_form_bloc.dart';
 import 'package:dissertation_project/data/app_scaler/scaled_app.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
@@ -16,15 +17,17 @@ class SettingsLoading extends SettingsState {}
 
 class SettingsLoaded extends SettingsState {
   final Map<String, ScaledApp> scaledApps;
-  final AddScaledAppFormBloc doubleAppBloc;
-  final AddScaledAppFormBloc halfAppBloc;
+  final ScaledAppFormBloc doubleAppBloc;
+  final ScaledAppFormBloc halfAppBloc;
+  final ScaledTimeFormBloc doubleTimeBloc;
 
   const SettingsLoaded({
     @required this.scaledApps,
     @required this.doubleAppBloc,
     @required this.halfAppBloc,
+    @required this.doubleTimeBloc
   }) : assert(scaledApps != null && doubleAppBloc != null &&
-      halfAppBloc != null);
+      halfAppBloc != null && doubleTimeBloc != null);
 
   @override
   List<Object> get props => [scaledApps, doubleAppBloc, halfAppBloc];
