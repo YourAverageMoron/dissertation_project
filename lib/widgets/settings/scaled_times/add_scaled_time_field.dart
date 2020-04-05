@@ -17,11 +17,30 @@ class AddScaledTimeField extends StatelessWidget {
         formBloc: scaledTimeFormBloc,
         child: Row(children: <Widget>[
           Expanded(
-              child: Text("FIELDS HERE")//TODO TIME FIELDS HERE,
+              child: TimeFieldBlocBuilder(
+                decoration: InputDecoration(
+                    labelText: "Start time",
+                ),
+                initialTime: TimeOfDay.now(),
+                format: DateFormat("hh:mm a"),
+                timeFieldBloc: scaledTimeFormBloc.startTimeFieldBloc,
+
+              )
+          ),
+          Expanded(
+              child: TimeFieldBlocBuilder(
+                decoration: InputDecoration(
+                  labelText: "End time",
+                ),
+                initialTime: TimeOfDay.now(),
+                format: DateFormat("hh:mm a"),
+                timeFieldBloc: scaledTimeFormBloc.endTimeFieldBloc,
+
+              )
           ),
           IconButton(
             color: Colors.green,
-            onPressed: () => Function.apply(settingsBloc.addScaledApp,
+            onPressed: () => Function.apply(settingsBloc.addScaledTime,
                 [scaledTimeFormBloc.scaleFactor, scaledTimeFormBloc]),
             icon: Icon(Icons.add_circle),
           )

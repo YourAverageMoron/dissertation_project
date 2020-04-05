@@ -37,9 +37,9 @@ class SettingsPage extends StatelessWidget {
                   ),
                 ),
                 SettingsExpandCard(
-                  title: "Your 'good' applications",
+                  title: "Your 'good' times",
                   description:
-                  "Apps selected in this section will affect your score less, we recommend selecting prodictivity or educational applications",
+                  "Times selected in this section will affect your score less",
                   child: ScaledTimeExtendCardContent(
                     settingsBloc: context.bloc(),
                     scaledTimeFormBloc: state.doubleTimeBloc,

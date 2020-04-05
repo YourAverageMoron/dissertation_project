@@ -60,4 +60,10 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     settingsLoaded.halfAppBloc.updateScaledApps((settingsLoaded.scaledApps));
     _scaledAppRepository.saveScaledApps(settingsLoaded.scaledApps);
   }
+
+  void addScaledTime(double scaleFactor, ScaledTimeFormBloc bloc) {
+    SettingsLoaded settingsLoaded = state as SettingsLoaded;
+    print(bloc.startTimeFieldBloc.value);
+    print(bloc.endTimeFieldBloc.value);
+  }
 }
