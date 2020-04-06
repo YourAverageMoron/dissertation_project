@@ -7,6 +7,8 @@ class ComparableTimeOfDay extends TimeOfDay {
 
   ComparableTimeOfDay({ @required hour, @required minute }): super(hour:hour, minute:minute);
 
+  ComparableTimeOfDay.fromTimeOfDay(TimeOfDay timeOfDay): super(hour:timeOfDay.hour, minute:timeOfDay.minute);
+
   int compareTo(other){
     final now = new DateTime.now();
     DateTime thisDate = _dateTimeHelpers.timeOfDayToDate(now, this);

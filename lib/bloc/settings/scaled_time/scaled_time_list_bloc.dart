@@ -26,6 +26,7 @@ class ScaledTimeListBloc
   Stream<List<ScaledScoreTime>> mapEventToState(
       ScaledTimeListEvent event) async* {
     if (event is UpdateScaledTimesList) {
+      event.scaledTimes.forEach((element) {print("${element.getStartTime().hour} ${element.getEndTime().minute} ${element.getScaleFactor()}");});
       yield List.from(event.scaledTimes);
     }
   }

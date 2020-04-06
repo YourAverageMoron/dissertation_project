@@ -47,14 +47,14 @@ class _ScaledTimeCard extends StatelessWidget {
     return Card(
         child: ListTile(
           //leading: scaledScoreTime,
-          title: Text(scaledScoreTime.getStartTime().toString()),
+          title: Text(scaledScoreTime.toString()),
           subtitle: Text(scaledScoreTime.getScaleFactor().toString()),
           trailing: IconButton(
             icon: Icon(Icons.remove),
             color: Colors.red,
             onPressed: () {
               Function.apply(
-                  bloc.removeScaledApp, [scaledScoreTime]); //TODO implement this
+                  bloc.removeScaledTime, [scaledScoreTime]);
             },
           ),
         ));

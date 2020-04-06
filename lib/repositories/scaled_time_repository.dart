@@ -1,3 +1,4 @@
+import 'package:dissertation_project/bloc/settings/scaled_time/scaled_time_list_bloc.dart';
 import 'package:dissertation_project/data/time_scaler/scaled_score_time.dart';
 import 'package:dissertation_project/helpers/shared_preferences/scaled_score_times_preferences.dart';
 import 'package:dissertation_project/kiwi_di/injector.dart';
@@ -10,6 +11,10 @@ class ScaledTimeRepository {
 
   void storeScaledTimes(List<Object> scaledScoreTimes) {
     _scaledScoreTimesPreferences.storeScaleScoreTimes(scaledScoreTimes);
+  }
+
+  Future<List<ScaledScoreTime>> getScaledTimes() async {
+    return await _scaledScoreTimesPreferences.getScaledTimes();
   }
 
   Future<List<ScaledScoreTime>> getAllScaledTimes(
