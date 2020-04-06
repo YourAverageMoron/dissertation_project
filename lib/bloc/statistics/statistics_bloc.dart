@@ -28,8 +28,11 @@ class StatsBloc extends Bloc<StatsEvent, StatsState> {
         final double applicationOpens = await _phoneUsageStatistics
             .getTotalApplicationOpens(startOfDay, now);
 
-        final String applicationScreenTime =
-            await _statsBlocHelper.getAppScreenTimeString(startOfDay, now);
+        final double appUsageTime =
+            await _phoneUsageStatistics.getTotalAppUsageTime(startOfDay, now);
+
+        final String applicationScreenTime = await _statsBlocHelper
+            .getAppScreenTimeString(appUsageTime.round().toInt());
 
         Map<String, AppUsageStat> appUsageStats =
             await _appUsageTime.getUsageStats(startOfDay, now);
@@ -40,11 +43,15 @@ class StatsBloc extends Bloc<StatsEvent, StatsState> {
         List<charts.Series> barChartWeeklyScores =
             await _statsBlocHelper.getWeeklyScores();
 
+        String heuristicString =
+            _statsBlocHelper.getHeuristicInfo(appUsageTime: appUsageTime);
+
         yield StatsLoaded(
           barChartScoreData: barChartWeeklyScores,
           appScreenTimePieData: appScreenTimePieData,
           applicationOpens: applicationOpens.round().toInt(),
           appScreenTime: applicationScreenTime,
+          heuristicString: heuristicString,
         );
       } catch (e) {
         print(e);

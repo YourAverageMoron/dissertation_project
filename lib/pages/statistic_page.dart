@@ -2,6 +2,7 @@ import 'package:dissertation_project/bloc/statistics/statistics_bloc.dart';
 import 'package:dissertation_project/bloc/statistics/statistics_events.dart';
 import 'package:dissertation_project/bloc/statistics/statistics_state.dart';
 import 'package:dissertation_project/widgets/statistics/bar_charts.dart';
+import 'package:dissertation_project/widgets/statistics/heuristic_stat.dart';
 import 'package:dissertation_project/widgets/statistics/pie_charts.dart';
 import 'package:dissertation_project/widgets/statistics/statistics_container.dart';
 import 'package:dissertation_project/widgets/statistics/written_statistics.dart';
@@ -37,6 +38,14 @@ class StatisticsPage extends StatelessWidget {
                   )
                 ],
               ),
+              StatisticsContainer(
+                  padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                  height: 100,
+                  child:
+                      FittedBox(
+                         child: HeuristicStat(),
+                      ),
+                  ),
               StatisticsContainer(
                   padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
                   height: 300,

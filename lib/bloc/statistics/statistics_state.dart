@@ -18,19 +18,28 @@ class StatsLoaded extends StatsState {
   final String appScreenTime;
   final List<charts.Series> appScreenTimePieData;
   final List<charts.Series> barChartScoreData;
+  final String heuristicString;
 
   const StatsLoaded(
       {@required this.appScreenTimePieData,
       @required this.applicationOpens,
       @required this.appScreenTime,
-      @required this.barChartScoreData})
+      @required this.barChartScoreData,
+      @required this.heuristicString})
       : assert(applicationOpens != null &&
             appScreenTime != null &&
             appScreenTimePieData != null &&
-            barChartScoreData != null);
+            barChartScoreData != null &&
+            heuristicString != null);
 
   @override
-  List<Object> get props => [applicationOpens];
+  List<Object> get props => [
+        applicationOpens,
+        appScreenTimePieData,
+        appScreenTime,
+        barChartScoreData,
+        heuristicString
+      ];
 }
 
 class StatsError extends StatsState {}
