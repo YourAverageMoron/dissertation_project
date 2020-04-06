@@ -1,7 +1,5 @@
-import 'package:dissertation_project/data/score/score_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:kiwi/kiwi.dart' as kiwi;
 
 class AppUsagePage extends StatefulWidget {
   AppUsagePage({Key key, this.title}) : super(key: key);
@@ -13,20 +11,18 @@ class AppUsagePage extends StatefulWidget {
 
 class _AppUsagePageState extends State<AppUsagePage> {
   static const platform =
-  const MethodChannel('uk.ac.bath.dissertation_project/helper_methods');
+      const MethodChannel('uk.ac.bath.dissertation_project/helper_methods');
 
   // Get battery level.
   String _batteryLevel = 'Unknown battery level.';
 
   Future<void> _getBatteryLevel() async {
-    kiwi.Container container = kiwi.Container();
-    ScoreRepository score = container<ScoreRepository>();
-
     String batteryLevel;
     try {
       int endTime = DateTime.now().millisecondsSinceEpoch;
       int startTime = endTime - 300000;
-      var result = await platform.invokeMethod('getUsageStats',{'startTime': startTime, 'endTime':endTime});
+      var result = await platform.invokeMethod(
+          'getUsageStats', {'startTime': startTime, 'endTime': endTime});
       batteryLevel = 'Battery level at $result % .';
     } on PlatformException catch (e) {
       batteryLevel = "Failed to get battery level: '${e.message}'.";

@@ -2,14 +2,14 @@ import 'package:dissertation_project/data/phone_usage/phone_usage_statistics.dar
 import 'package:dissertation_project/data/time_scaler/comparable_time_of_day.dart';
 import 'package:dissertation_project/data/time_scaler/scaled_score_time.dart';
 import 'package:dissertation_project/helpers/datetime_helpers.dart';
-import 'package:dissertation_project/helpers/shared_preferences/scaled_score_times_preferences.dart';
 import 'package:dissertation_project/kiwi_di/injector.dart';
+import 'package:dissertation_project/repositories/scaled_time_repository.dart';
 
 class ScoreRepository {
   final PhoneUsageStatistics _phoneUsageStatistics =
       Injector.resolve<PhoneUsageStatistics>();
-  final ScaledScoreTimesPreferences _scaledScoreTimesPreferences =
-      Injector.resolve<ScaledScoreTimesPreferences>();
+  final ScaledTimeRepository _scaledTimeRepository =
+      Injector.resolve<ScaledTimeRepository>();
   final DateTimeHelpers _dateTimeHelpers = Injector.resolve<DateTimeHelpers>();
 
   double _totalScreenTime = 0;
@@ -31,7 +31,7 @@ class ScoreRepository {
     ComparableTimeOfDay endTime =
         ComparableTimeOfDay(hour: date.hour, minute: date.minute);
     List<ScaledScoreTime> scaledScoreTimeList =
-        await _scaledScoreTimesPreferences.getAllTimesScaled(endTime);
+        await _scaledTimeRepository.getAllScaledTimes(endTime);
 
     double totalScreenTime = 0;
     double totalApplicationsOpened = 0;

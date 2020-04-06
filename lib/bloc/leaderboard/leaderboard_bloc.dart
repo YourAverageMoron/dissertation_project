@@ -1,8 +1,8 @@
 import 'package:dissertation_project/bloc/leaderboard/leaderboard_event.dart';
 import 'package:dissertation_project/bloc/leaderboard/leaderboard_state.dart';
 import 'package:dissertation_project/data/leaderboard/leaderboard_data.dart';
-import 'package:dissertation_project/data/score/score_repository.dart';
 import 'package:dissertation_project/kiwi_di/injector.dart';
+import 'package:dissertation_project/repositories/score_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class LeaderboardBloc extends Bloc<LeaderboardEvent, LeaderboardState> {

@@ -74,4 +74,33 @@ class ScaledScoreTime extends Comparable {
     DateTime endDateTime = _dateTimeHelpers.timeOfDayToDate(date, _endTime);
     return endDateTime.difference(startDateTime).inMilliseconds;
   }
+
+  bool overlap(ScaledScoreTime other) {
+    if (_startTimeBetween(other) ||
+        _endTimeBetween(other) ||
+        _overlapsAll(other)) {
+      return true;
+    }
+    return false;
+  }
+
+  @override
+  String toString(){
+    return "${_startTime.hour}:${_startTime.minute} to ${_endTime.hour}:${_endTime.minute}";
+  }
+
+  bool _startTimeBetween(ScaledScoreTime other) {
+    return (_startTime.compareTo(other.getStartTime()) >= 0) &&
+        (_startTime.compareTo(other.getEndTime()) <= 0);
+  }
+
+  bool _endTimeBetween(ScaledScoreTime other) {
+    return (_endTime.compareTo(other.getStartTime()) >= 0) &&
+        (_endTime.compareTo(other.getEndTime()) <= 0);
+  }
+
+  bool _overlapsAll(ScaledScoreTime other) {
+    return (_startTime.compareTo(other.getStartTime()) <= 0) &&
+        (_endTime.compareTo(other.getEndTime()) >= 0);
+  }
 }

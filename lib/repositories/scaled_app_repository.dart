@@ -1,7 +1,7 @@
 import 'package:dissertation_project/data/app_scaler/scaled_app.dart';
 import 'package:dissertation_project/helpers/shared_preferences/scaled_apps_preferences.dart';
-import 'package:dissertation_project/helpers/system_packages_info/package_manager_repository.dart';
 import 'package:dissertation_project/kiwi_di/injector.dart';
+import 'package:dissertation_project/repositories/package_manager_repository.dart';
 import 'package:flutter_package_manager/flutter_package_manager.dart';
 
 class ScaledAppRepository {
@@ -11,7 +11,7 @@ class ScaledAppRepository {
   Injector.resolve<PackageManagerRepository>();
 
   Future<Map<String, ScaledApp>> getAllScaledApps() async {
-    List<String> packages =
+    List<dynamic> packages =
     await _packageManagerRepository.getInstalledPackages();
 
     Map<String, ScaledApp> scaledApps = {};

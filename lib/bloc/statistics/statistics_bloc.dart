@@ -46,7 +46,8 @@ class StatsBloc extends Bloc<StatsEvent, StatsState> {
           applicationOpens: applicationOpens.round().toInt(),
           appScreenTime: applicationScreenTime,
         );
-      } catch (_) {
+      } catch (e) {
+        print(e);
         yield StatsError();
       }
     }
