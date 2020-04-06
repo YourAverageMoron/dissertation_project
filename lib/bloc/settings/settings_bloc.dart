@@ -31,6 +31,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         final List<ScaledScoreTime> scaledTimes =
         await _scaledTimeRepository.getScaledTimes();
 
+
         yield SettingsLoaded(
           scaledApps: scaledApps,
           scaledTimes: scaledTimes,
@@ -39,7 +40,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
           halfAppBloc:
           ScaledAppFormBloc(scaledApps: scaledApps, scaleFactor: GOOD_SCALE),
           doubleTimeBloc:
-          ScaledTimeFormBloc(scaledTimes: [], scaleFactor: BAD_SCALE),
+          ScaledTimeFormBloc(scaledTimes: scaledTimes, scaleFactor: BAD_SCALE),
         );
       } catch (e) {
         print(e);
@@ -90,6 +91,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         bloc.updateScaledTimes(settingsLoaded.scaledTimes);
         bloc.startTimeFieldBloc.clear();
         bloc.endTimeFieldBloc.clear();
+        _scaledTimeRepository.storeScaledTimes(settingsLoaded.scaledTimes);
       }
     }
   }
@@ -98,6 +100,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     SettingsLoaded settingsLoaded = state as SettingsLoaded;
     settingsLoaded.scaledTimes.remove(scaledTime);
     settingsLoaded.doubleTimeBloc.updateScaledTimes(settingsLoaded.scaledTimes);
+    _scaledTimeRepository.storeScaledTimes(settingsLoaded.scaledTimes);
   }
 
   void _addToScaleTimeList(ScaledScoreTime scaleTime) {

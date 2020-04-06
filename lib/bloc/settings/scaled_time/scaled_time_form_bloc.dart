@@ -51,6 +51,8 @@ class ScaledTimeFormBloc extends FormBloc<String, String> {
       );
 
     addFieldBlocs(fieldBlocs: [startTimeFieldBloc, endTimeFieldBloc]);
+
+    updateScaledTimes(_scaledTimes);
   }
 
   void updateScaledTimes(List<ScaledScoreTime> scaledTimes) {
