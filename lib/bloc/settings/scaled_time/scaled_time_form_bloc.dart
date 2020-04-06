@@ -55,7 +55,9 @@ class ScaledTimeFormBloc extends FormBloc<String, String> {
 
   void updateScaledTimes(List<ScaledScoreTime> scaledTimes) {
     _scaledTimes = scaledTimes;
-    scaledTimeListBloc.add(UpdateScaledTimesList(scaledTimes: scaledTimes));
+    List<ScaledScoreTime> filteredTime = scaledTimes.where((element) =>
+      element.getScaleFactor() == scaleFactor).toList();
+    scaledTimeListBloc.add(UpdateScaledTimesList(scaledTimes: filteredTime));
   }
 
   Validator<dynamic> _startTimeOverlapValidator(
