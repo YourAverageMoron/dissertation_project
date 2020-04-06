@@ -51,11 +51,25 @@ class StatsBlocHelper {
     ];
   }
 
-  Future<String> getAppScreenTimeString(
-      DateTime startTime, DateTime endTime) async {
+  /// Based loosely on:
+  /// https://www.statista.com/statistics/781692/worldwide-daily-time-spent-on-smartphone/
+  String getHeuristicInfo({double appUsageTime}){
+    if(appUsageTime < 1 * 3600000){
+      return "Well done! You use your phone less than 96% of people";
+    } else if(appUsageTime < 2 * 3600000){
+      return "Congratulations! You use your phone less than 76% of people";
+    } else if(appUsageTime < 4 * 3600000){
+      return "56% of people use their phone less than you";
+    } else if(appUsageTime < 6 * 3600000){
+      return "You use your phone more than 74% of people";
+    } else if(appUsageTime > 7 * 3600000){
+      return "You phone usage is higher than 95% of people";
+    }
+  }
+
+  Future<String> getAppScreenTimeString(int appUsageTime) async {
     final Duration appScreenTime = Duration(
-        milliseconds: (await _phoneUsageStatistics.getTotalAppUsageTime(
-                startTime, endTime))
+        milliseconds: appUsageTime
             .round()
             .toInt());
     String twoDigits(int n) {
