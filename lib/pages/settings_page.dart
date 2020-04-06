@@ -45,6 +45,15 @@ class SettingsPage extends StatelessWidget {
                     scaledTimeFormBloc: state.doubleTimeBloc,
                   ),
                 ),
+                SettingsExpandCard(
+                  title: "Your 'good' times",
+                  description:
+                  "Times selected in this section will affect your score less, choose times where you dont mind using your phone, such as lunch breaks",
+                  child: ScaledTimeExtendCardContent(
+                    settingsBloc: context.bloc(),
+                    scaledTimeFormBloc: state.halfTimeBloc,
+                  ),
+                ),
               ]);
             }
             BlocProvider.of<SettingsBloc>(context).add(LoadSettings());

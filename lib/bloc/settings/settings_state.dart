@@ -22,18 +22,21 @@ class SettingsLoaded extends SettingsState {
   final ScaledAppFormBloc doubleAppBloc;
   final ScaledAppFormBloc halfAppBloc;
   final ScaledTimeFormBloc doubleTimeBloc;
+  final ScaledTimeFormBloc halfTimeBloc;
 
-  const SettingsLoaded(
-      {@required this.scaledApps,
-      @required this.scaledTimes,
-      @required this.doubleAppBloc,
-      @required this.halfAppBloc,
-      @required this.doubleTimeBloc})
-      : assert(scaledApps != null &&
+  const SettingsLoaded({
+    @required this.scaledApps,
+    @required this.scaledTimes,
+    @required this.doubleAppBloc,
+    @required this.halfAppBloc,
+    @required this.doubleTimeBloc,
+    @required this.halfTimeBloc,
+  }) : assert(scaledApps != null &&
             scaledTimes != null &&
             doubleAppBloc != null &&
             halfAppBloc != null &&
-            doubleTimeBloc != null);
+            doubleTimeBloc != null &&
+            halfTimeBloc != null);
 
   @override
   List<Object> get props => [scaledApps, doubleAppBloc, halfAppBloc];

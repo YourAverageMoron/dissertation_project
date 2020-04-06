@@ -13,10 +13,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   ScaledAppRepository _scaledAppRepository =
-  Injector.resolve<ScaledAppRepository>();
+      Injector.resolve<ScaledAppRepository>();
 
   ScaledTimeRepository _scaledTimeRepository =
-  Injector.resolve<ScaledTimeRepository>();
+      Injector.resolve<ScaledTimeRepository>();
 
   @override
   SettingsState get initialState => SettingsEmpty();
@@ -26,21 +26,22 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     if (event is LoadSettings) {
       try {
         final Map<String, ScaledApp> scaledApps =
-        await _scaledAppRepository.getAllScaledApps();
+            await _scaledAppRepository.getAllScaledApps();
 
         final List<ScaledScoreTime> scaledTimes =
-        await _scaledTimeRepository.getScaledTimes();
-
+            await _scaledTimeRepository.getScaledTimes();
 
         yield SettingsLoaded(
           scaledApps: scaledApps,
           scaledTimes: scaledTimes,
           doubleAppBloc:
-          ScaledAppFormBloc(scaledApps: scaledApps, scaleFactor: BAD_SCALE),
-          halfAppBloc:
-          ScaledAppFormBloc(scaledApps: scaledApps, scaleFactor: GOOD_SCALE),
-          doubleTimeBloc:
-          ScaledTimeFormBloc(scaledTimes: scaledTimes, scaleFactor: BAD_SCALE),
+              ScaledAppFormBloc(scaledApps: scaledApps, scaleFactor: BAD_SCALE),
+          halfAppBloc: ScaledAppFormBloc(
+              scaledApps: scaledApps, scaleFactor: GOOD_SCALE),
+          doubleTimeBloc: ScaledTimeFormBloc(
+              scaledTimes: scaledTimes, scaleFactor: BAD_SCALE),
+          halfTimeBloc: ScaledTimeFormBloc(
+              scaledTimes: scaledTimes, scaleFactor: GOOD_SCALE),
         );
       } catch (e) {
         print(e);
@@ -88,7 +89,8 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         // TODO ASK IF USER WANTS TO REMOVE OTHERS
       } else {
         _addToScaleTimeList(scaledTime);
-        bloc.updateScaledTimes(settingsLoaded.scaledTimes);
+        settingsLoaded.doubleTimeBloc.updateScaledTimes(settingsLoaded.scaledTimes);
+        settingsLoaded.halfTimeBloc.updateScaledTimes(settingsLoaded.scaledTimes);
         bloc.startTimeFieldBloc.clear();
         bloc.endTimeFieldBloc.clear();
         _scaledTimeRepository.storeScaledTimes(settingsLoaded.scaledTimes);
@@ -98,8 +100,11 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
 
   void removeScaledTime(ScaledScoreTime scaledTime) {
     SettingsLoaded settingsLoaded = state as SettingsLoaded;
+    print(scaledTime.toString());
+    print(scaledTime.getScaleFactor());
     settingsLoaded.scaledTimes.remove(scaledTime);
     settingsLoaded.doubleTimeBloc.updateScaledTimes(settingsLoaded.scaledTimes);
+    settingsLoaded.halfTimeBloc.updateScaledTimes(settingsLoaded.scaledTimes);
     _scaledTimeRepository.storeScaledTimes(settingsLoaded.scaledTimes);
   }
 
