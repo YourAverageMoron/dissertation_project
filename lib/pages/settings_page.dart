@@ -37,9 +37,9 @@ class SettingsPage extends StatelessWidget {
                   ),
                 ),
                 SettingsExpandCard(
-                  title: "Your 'good' times",
+                  title: "Your 'bad' times",
                   description:
-                  "Times selected in this section will affect your score less",
+                  "Times selected in this section will affect your score more, choose times where you want to use your device less such as before bed",
                   child: ScaledTimeExtendCardContent(
                     settingsBloc: context.bloc(),
                     scaledTimeFormBloc: state.doubleTimeBloc,

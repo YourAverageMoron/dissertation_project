@@ -3,6 +3,7 @@ import 'package:dissertation_project/bloc/settings/scaled_time/scaled_time_form_
 import 'package:dissertation_project/bloc/settings/settings_event.dart';
 import 'package:dissertation_project/bloc/settings/settings_state.dart';
 import 'package:dissertation_project/data/app_scaler/scaled_app.dart';
+import 'package:dissertation_project/data/scaling_data/scale_values.dart';
 import 'package:dissertation_project/data/time_scaler/comparable_time_of_day.dart';
 import 'package:dissertation_project/data/time_scaler/scaled_score_time.dart';
 import 'package:dissertation_project/kiwi_di/injector.dart';
@@ -34,11 +35,11 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
           scaledApps: scaledApps,
           scaledTimes: scaledTimes,
           doubleAppBloc:
-          ScaledAppFormBloc(scaledApps: scaledApps, scaleFactor: 2.0),
+          ScaledAppFormBloc(scaledApps: scaledApps, scaleFactor: BAD_SCALE),
           halfAppBloc:
-          ScaledAppFormBloc(scaledApps: scaledApps, scaleFactor: 0.5),
+          ScaledAppFormBloc(scaledApps: scaledApps, scaleFactor: GOOD_SCALE),
           doubleTimeBloc:
-          ScaledTimeFormBloc(scaledTimes: [], scaleFactor: 2.0),
+          ScaledTimeFormBloc(scaledTimes: [], scaleFactor: BAD_SCALE),
         );
       } catch (e) {
         print(e);

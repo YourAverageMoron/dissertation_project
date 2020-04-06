@@ -1,5 +1,6 @@
 import 'package:dissertation_project/bloc/settings/scaled_time/scaled_time_list_bloc.dart';
 import 'package:dissertation_project/data/app_scaler/scaled_app.dart';
+import 'package:dissertation_project/data/scaling_data/scale_values.dart';
 import 'package:dissertation_project/data/time_scaler/comparable_time_of_day.dart';
 import 'package:dissertation_project/data/time_scaler/scaled_score_time.dart';
 import 'package:dissertation_project/helpers/datetime_helpers.dart';
@@ -88,7 +89,7 @@ class ScaledTimeFormBloc extends FormBloc<String, String> {
             .where((ScaledScoreTime element) => element.overlap(scaledTime))
             .toList();
         if (overlappingTimes.length > 0) {
-          return "${overlappingTimes[0].getScaleFactor() == 2 ? "Good" : "Bad"} - ${overlappingTimes[0].toString()}";
+          return "${overlappingTimes[0].getScaleFactor() == BAD_SCALE ? "Bad" : "Good"} - ${overlappingTimes[0].toString()}";
         }
       }
       return null;
