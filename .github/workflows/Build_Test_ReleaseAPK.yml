@@ -8,6 +8,7 @@ jobs:
     name: Build APK
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@master
       - uses: actions/setup-java@v1
         with:
           java-version: '1.8.*'
@@ -28,4 +29,4 @@ jobs:
         with:
           artifacts: "build/app/outputs/apk/debug/*.apk"
           token: ${{ secrets.TOKEN }}
-          tag: v1.01
+          tag: 1.01
