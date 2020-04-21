@@ -3,7 +3,7 @@ on:
     branches:
       - master
     tags:
-      - '*'
+      - '!refs/tags/*'
 name: Test, Build and Release apk
 jobs:
   build:
