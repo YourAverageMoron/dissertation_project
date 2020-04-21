@@ -2,7 +2,6 @@ import 'package:dissertation_project/bloc/leaderboard/leaderboard_bloc.dart';
 import 'package:dissertation_project/bloc/score/score_bloc.dart';
 import 'package:dissertation_project/bloc/settings/settings_bloc.dart';
 import 'package:dissertation_project/bloc/statistics/statistics_bloc.dart';
-import 'package:dissertation_project/pages/app_usage_page.dart';
 import 'package:dissertation_project/pages/home_page.dart';
 import 'package:dissertation_project/pages/leaderboard_page.dart';
 import 'package:dissertation_project/pages/settings_page.dart';
@@ -24,8 +23,6 @@ class Router {
             builder: (_) => BlocProvider(
                 create: (context) => LeaderboardBloc(),
                 child: LeaderboardPage()));
-      case APPUSAGE:
-        return MaterialPageRoute(builder: (_) => AppUsagePage());
       case STATISTICS:
         return MaterialPageRoute(
             builder: (_) => BlocProvider(
