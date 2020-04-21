@@ -12,7 +12,7 @@ class AppDrawer extends StatelessWidget{
           padding: EdgeInsets.zero,
           children: <Widget>[
             DrawerHeader(
-              child: Text('Drawer Header'),
+              child: Text('Dissertation app'),
               decoration: BoxDecoration(
                 color: Theme.of(context).primaryColor,
               ),
@@ -23,14 +23,6 @@ class AppDrawer extends StatelessWidget{
               onTap: () {
                 Navigator.pop(context);
                 Navigator.pushNamed(context, LEADERBOARD);
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.touch_app),
-              title: Text('App Usage'),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.pushNamed(context, APPUSAGE);
               },
             ),
             ListTile(
